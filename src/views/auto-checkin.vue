@@ -145,6 +145,7 @@ export default {
 };
 </script>
 <style scoped>
+@import url(https://unpkg.com/element-ui/lib/theme-chalk/index.css);
 .el-container {
   padding: 20px;
   font-family: Helvetica;

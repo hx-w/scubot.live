@@ -5,7 +5,6 @@ import App from './App.vue'
 import router from './router' //引入路由配置
 import axios from 'axios'
 
-import './assets/css/global.css'
 import './plugins/element'
 
 Vue.use(JSONView)
