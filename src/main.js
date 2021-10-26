@@ -6,17 +6,13 @@ import router from './router' //引入路由配置
 import axios from 'axios'
 import './assets/index.css'
 import './plugins/element'
-import VueAmap from 'vue-amap'
+import VueAmap from '@amap/amap-vue'
 
+
+VueAmap.config.key = "dbf27129f0765f4a00dc2b1de0690568"
 Vue.use(JSONView)
 Vue.use(VueAmap)
 
-VueAmap.initAMapApiLoader({
-    key: "dbf27129f0765f4a00dc2b1de0690568",
-    plugin: ["AMap.Autocomplete", "AMap.Geocoder", "AMap.Geolocation"],
-    v: "1.4.15",
-    uiVersion: "1.1"
-});
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = false

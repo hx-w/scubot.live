@@ -101,7 +101,7 @@
 
 <script>
 import axios from "axios";
-import mapSelector from './amap.vue';
+import mapSelector from './scumap.vue';
 var pattern = /"uid":"(.+?)"/g;
 
 function sleep(time) {
