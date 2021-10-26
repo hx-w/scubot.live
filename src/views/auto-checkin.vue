@@ -99,6 +99,10 @@
 import axios from "axios";
 var pattern = /"uid":"(.+?)"/g;
 
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 export default {
   data() {
     return {
@@ -160,12 +164,13 @@ export default {
           }
         })
         .catch((res) => {
-          console.log(res);
-          if (res.response.status == 403) {
-            this.$message.error("错误：" + res.response.data["detail"]);
-            return;
-          }
           this.$message.error("出现了一些错误，请检查表单是否填写正确");
+          console.log(res);
+          if (res.response != undefined && res.response.status == 403) {
+            sleep(500).then(() => {
+              this.$message.error("错误：" + res.response.data["detail"]);
+            });
+          }
         });
     },
   },
