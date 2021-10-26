@@ -1,6 +1,5 @@
 <template>
   <el-container direction="vertical">
-    <mapSelector></mapSelector>
     <el-row>
       <el-header>
         <h1 align="center">SCU健康每日报自动打卡工作流</h1>
@@ -52,7 +51,6 @@
               >健康每日报网页链接</el-link
             >
           </el-form-item>
-
           <el-form-item label="每日打卡时间">
             <el-time-select
               v-model="scu.triggerTime"
@@ -78,6 +76,13 @@
               placeholder="联系开发者获取"
             ></el-input>
           </el-form-item>
+          <div class="scumap" align="center">
+          <el-card class="box-card" style="width: 85%; left:90px;position: relative;">
+            <amap>
+              <scumap />
+            </amap>
+          </el-card>
+          </div>
           <br />
           <el-form-item>
             <el-button type="warning" @click="onPreview">预览</el-button>
@@ -101,7 +106,7 @@
 
 <script>
 import axios from "axios";
-import mapSelector from './scumap.vue';
+import scumap from "./scumap.vue";
 var pattern = /"uid":"(.+?)"/g;
 
 function sleep(time) {
@@ -109,7 +114,7 @@ function sleep(time) {
 }
 
 export default {
-  components: { mapSelector },
+  components: { scumap },
   data() {
     return {
       scu: {
@@ -193,5 +198,10 @@ export default {
 
 .el-form {
   margin-top: 50px;
+}
+
+.scumap {
+  width: 100%;
+  height: 20%;
 }
 </style>
