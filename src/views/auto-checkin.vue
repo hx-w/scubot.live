@@ -1,7 +1,30 @@
 <template>
   <el-col :span="22">
-    <el-container style="solid #eee">
-      <el-header><h1 align="center">SCU健康每日报自动打卡工作流</h1></el-header>
+    <el-container>
+      <el-header>
+        <h1 align="center">SCU健康每日报自动打卡工作流</h1>
+        <div align="center">
+          <img
+            align="center"
+            alt="runtime"
+            hspace="5"
+            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fci.scubot.live%3A12121%2Fget_badge%3Ftype_%3D2"
+          />
+          <img
+            align="center"
+            alt="total"
+            hspace="5"
+            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fci.scubot.live%3A12121%2Fget_badge%3Ftype_%3D1"
+          />
+          <img
+            align="center"
+            alt="valid workflow"
+            hspace="5"
+            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fci.scubot.live%3A12121%2Fget_badge%3Ftype_%3D0"
+          />
+        </div>
+        <br />
+      </el-header>
       <br />
       <el-form ref="scu" :model="scu" label-width="180px" size="large">
         <el-form-item label="常用的浏览器UA">
@@ -46,7 +69,11 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="Access Token">
-          <el-input v-model="accessToken" show-password placeholder="联系开发者获取"></el-input>
+          <el-input
+            v-model="accessToken"
+            show-password
+            placeholder="联系开发者获取"
+          ></el-input>
         </el-form-item>
         <br />
         <el-form-item align="left">
@@ -133,7 +160,7 @@ export default {
           }
         })
         .catch((res) => {
-          console.log(res)
+          console.log(res);
           if (res.response.status == 403) {
             this.$message.error("错误：" + res.response.data["detail"]);
             return;
@@ -147,8 +174,11 @@ export default {
 <style scoped>
 /* @import url(https://unpkg.com/element-ui/lib/theme-chalk/index.css); */
 .el-container {
-  padding: 20px;
+  padding: 10px;
   font-family: Helvetica;
-  margin-top: 20px;
+  margin-top: 10px;
+}
+.el-form {
+  margin-top: 30px;
 }
 </style>
