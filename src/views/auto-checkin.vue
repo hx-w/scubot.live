@@ -1,6 +1,6 @@
 <template>
-  <el-col :span="22">
-    <el-container>
+  <el-container direction="vertical">
+    <el-row>
       <el-header>
         <h1 align="center">SCU健康每日报自动打卡工作流</h1>
         <div align="center">
@@ -25,73 +25,76 @@
         </div>
         <br />
       </el-header>
-      <br />
-      <el-form ref="scu" :model="scu" label-width="180px" size="large">
-        <el-form-item label="常用的浏览器UA">
-          <el-input v-model="scu.userAgent"></el-input>
-        </el-form-item>
+    </el-row>
+    <el-row justify="center" type="flex">
+      <el-col :span="20">
+        <el-form ref="scu" :model="scu" label-width="180px" size="large">
+          <el-form-item label="常用的浏览器UA">
+            <el-input v-model="scu.userAgent"></el-input>
+          </el-form-item>
 
-        <el-form-item label="微服务网页源代码">
-          <el-input
-            v-model="scu.uuid"
-            placeholder="
+          <el-form-item label="微服务网页源代码">
+            <el-input
+              v-model="scu.uuid"
+              placeholder="
 使用Chrome或Edge登录https://wfw.scu.edu.cn/ncov/wap/default/index（健康每日报网页版）
 右键网页空白处，选择'显示网页源代码' (或CTRL+U)
 将网页中所有源代码复制粘贴到这里即可
 "
-            :rows="5"
-            type="textarea"
-          ></el-input>
-          <el-link
-            type="primary"
-            href="https://wfw.scu.edu.cn/ncov/wap/default/index"
-            target="_blank"
-            >健康每日报网页链接</el-link
-          >
-        </el-form-item>
+              :rows="5"
+              type="textarea"
+            ></el-input>
+            <el-link
+              type="primary"
+              href="https://wfw.scu.edu.cn/ncov/wap/default/index"
+              target="_blank"
+              >健康每日报网页链接</el-link
+            >
+          </el-form-item>
 
-        <el-form-item label="每日打卡时间">
-          <el-time-select
-            v-model="scu.triggerTime"
-            :picker-options="{
-              start: '00:10',
-              step: '00:30',
-              end: '13:30',
-            }"
-            placeholder="选择时间"
-          >
-          </el-time-select>
-        </el-form-item>
-        <el-form-item label="接受消息的QQ">
-          <el-input
-            v-model="scu.qqid"
-            placeholder="填写自己的QQ用于接受打卡回执，留空为不接受回执。"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="Access Token">
-          <el-input
-            v-model="accessToken"
-            show-password
-            placeholder="联系开发者获取"
-          ></el-input>
-        </el-form-item>
-        <br />
-        <el-form-item align="left">
-          <el-button type="warning" @click="onPreview">预览</el-button>
-          <el-button type="primary" @click="onSubmit">提交</el-button>
-        </el-form-item>
-        <el-form-item>
-          <json-viewer
-            :value="preview"
-            :expand-depth="5"
-            copyable
-            boxed
-            sort
-          ></json-viewer>
-        </el-form-item>
-      </el-form>
-    </el-container>
-  </el-col>
+          <el-form-item label="每日打卡时间">
+            <el-time-select
+              v-model="scu.triggerTime"
+              :picker-options="{
+                start: '00:10',
+                step: '00:30',
+                end: '13:30',
+              }"
+              placeholder="选择时间"
+            >
+            </el-time-select>
+          </el-form-item>
+          <el-form-item label="接受消息的QQ">
+            <el-input
+              v-model="scu.qqid"
+              placeholder="填写自己的QQ用于接受打卡回执，留空为不接受回执。"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="Access Token">
+            <el-input
+              v-model="accessToken"
+              show-password
+              placeholder="联系开发者获取"
+            ></el-input>
+          </el-form-item>
+          <br />
+          <el-form-item>
+            <el-button type="warning" @click="onPreview">预览</el-button>
+            <el-button type="primary" @click="onSubmit">提交</el-button>
+          </el-form-item>
+          <el-form-item>
+            <json-viewer
+              :value="preview"
+              :expand-depth="5"
+              copyable
+              boxed
+              sort
+            ></json-viewer>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
+  </el-container>
 </template>
 
 
@@ -121,7 +124,7 @@ export default {
     this.$notify.success({
       title: "提示",
       dangerouslyUseHTMLString: true,
-      message: 
+      message:
         "如果你需要每日打卡消息回执，请主动添加QQ(机器人)：<strong><a href='https://wpa.qq.com/msgrd?v=3&uin=3583618673&site=scubot&from=scubot&menu=yes'>3583618673</a></strong>，验证消息填：<strong><span id='verifyCode' onclick='copy();'>7355608</span></strong>",
       duration: 0,
     });
@@ -145,7 +148,7 @@ export default {
     },
     onSubmit() {
       if (isNaN(this.scu.uuid) || this.scu.uuid.length == 0) {
-        this.$message({message: "请先点击预览，再点击提交", type: "warning"});
+        this.$message({ message: "请先点击预览，再点击提交", type: "warning" });
         return;
       }
       var postData = this.scu;
@@ -184,7 +187,8 @@ export default {
   font-family: Helvetica;
   margin-top: 10px;
 }
+
 .el-form {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 </style>
