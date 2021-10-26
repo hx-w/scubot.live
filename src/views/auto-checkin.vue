@@ -77,11 +77,14 @@
             ></el-input>
           </el-form-item>
           <div class="scumap" align="center">
-          <el-card class="box-card" style="width: 85%; left:90px;position: relative;">
-            <amap>
-              <scumap />
-            </amap>
-          </el-card>
+            <el-card
+              class="box-card"
+              style="width: 85%; left: 90px; position: relative"
+            >
+              <amap>
+                <scumap />
+              </amap>
+            </el-card>
           </div>
           <br />
           <el-form-item>
@@ -138,7 +141,8 @@ export default {
     });
     this.$notify.info({
       title: "功能相关",
-      message: "地图定位功能还未接入，目前打卡定位地点为[四川大学望江校区研究生院]",
+      message:
+        "地图定位功能还未接入，目前打卡定位地点为[四川大学望江校区研究生院]",
       duration: 0,
       offset: 120,
     });
@@ -162,7 +166,7 @@ export default {
     },
     onSubmit() {
       if (isNaN(this.scu.uuid) || this.scu.uuid.length == 0) {
-        this.$message({ message: "请先点击预览，再点击提交", type: "warning" });
+        this.$message.warning("请先点击预览，再点击提交");
         return;
       }
       var postData = this.scu;
@@ -171,10 +175,7 @@ export default {
         .post("https://ci.scubot.live:12121/set_checkin", postData)
         .then((res) => {
           if (res.status == 200) {
-            this.$message({
-              message: res.data["message"],
-              type: "success",
-            });
+            this.$message.success(res.data["message"]);
           } else if (res.status == 403) {
             this.$message.error("错误：" + res.data["detail"]);
           } else {
