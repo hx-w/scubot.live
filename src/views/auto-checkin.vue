@@ -120,8 +120,9 @@ export default {
     this.scu.userAgent = navigator.userAgent;
     this.$notify.success({
       title: "提示",
-      message:
-        "如果你需要每日打卡消息回执，请主动添加QQ(机器人)：3583618673，验证消息填：7355608",
+      dangerouslyUseHTMLString: true,
+      message: 
+        "如果你需要每日打卡消息回执，请主动添加QQ(机器人)：<strong><a href='https://wpa.qq.com/msgrd?v=3&uin=3583618673&site=scubot&from=scubot&menu=yes'>3583618673</a></strong>，验证消息填：<strong><span id='verifyCode' onclick='copy();'>7355608</span></strong>",
       duration: 0,
     });
   },
@@ -143,8 +144,8 @@ export default {
       this.preview = this.scu;
     },
     onSubmit() {
-      if (isNaN(this.scu.uuid)) {
-        this.$message.error("请先点击预览，再点击提交");
+      if (isNaN(this.scu.uuid) || this.scu.uuid.length == 0) {
+        this.$message({message: "请先点击预览，再点击提交", type: "warning"});
         return;
       }
       var postData = this.scu;
