@@ -1,5 +1,6 @@
 <template>
   <el-container direction="vertical">
+    <mapSelector></mapSelector>
     <el-row>
       <el-header>
         <h1 align="center">SCU健康每日报自动打卡工作流</h1>
@@ -100,6 +101,7 @@
 
 <script>
 import axios from "axios";
+import mapSelector from './amap.vue';
 var pattern = /"uid":"(.+?)"/g;
 
 function sleep(time) {
@@ -107,6 +109,7 @@ function sleep(time) {
 }
 
 export default {
+  components: { mapSelector },
   data() {
     return {
       scu: {
