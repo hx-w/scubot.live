@@ -119,7 +119,7 @@ export default {
       var postData = this.scu;
       postData["accessToken"] = this.accessToken;
       axios
-        .post("https://ci.csgowiki.top:12121/set_checkin", postData)
+        .post("https://ci.scubot.live:12121/set_checkin", postData)
         .then((res) => {
           if (res.status == 200) {
             this.$message({
