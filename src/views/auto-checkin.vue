@@ -64,10 +64,7 @@ F12，切换至Network选项卡，刷新页面
             </el-time-select>
           </el-form-item>
           <el-form-item label="每日打卡地点">
-            <el-input
-              v-model="scu.area"
-              :disabled="true"
-            ></el-input>
+            <el-input v-model="scu.area" @click.native="onMapSelect"></el-input>
           </el-form-item>
           <el-form-item label="接受消息的QQ">
             <el-input
@@ -83,15 +80,20 @@ F12，切换至Network选项卡，刷新页面
             ></el-input>
           </el-form-item>
           <div class="scumap" align="center">
-            <el-card
-              class="box-card"
-              style="width: 85%; left: 90px; position: relative"
-              hidden="true"
+            <el-dialog
+              title="选择定位"
+              :visible.sync="dialogMapVisible"
+              center
+              top='15px'
             >
-              <amap>
                 <scumap />
-              </amap>
-            </el-card>
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogMapVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogMapVisible = false"
+                  >确 定</el-button
+                >
+              </span>
+            </el-dialog>
           </div>
           <br />
           <el-form-item>
@@ -105,7 +107,7 @@ F12，切换至Network选项卡，刷新页面
               copyable
               boxed
               sort
-              expanded=true
+              expanded
             ></json-viewer>
           </el-form-item>
         </el-form>
@@ -118,7 +120,7 @@ F12，切换至Network选项卡，刷新页面
 <script>
 import axios from "axios";
 import scumap from "./scumap.vue";
-var pattern = /eai-sess=(.+?); UUkey=(.+?)(?:;|$| )/g
+var pattern = /eai-sess=(.+?); UUkey=(.+?)(?:;|$| )/g;
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -137,6 +139,7 @@ export default {
       },
       accessToken: "",
       preview: "请点击'预览'",
+      dialogMapVisible: false,
     };
   },
   created() {
@@ -163,23 +166,23 @@ export default {
         return;
       }
       var got = pattern.exec(this.scu.cookies);
-      var cookies = {}
+      var cookies = {};
       if (got != null && got.length > 2) {
         cookies = {
-          'eai-sess': got[1],
-          'UUkey': got[2],
-        }
+          "eai-sess": got[1],
+          UUkey: got[2],
+        };
       } else {
         this.$message.error("<微服务Cookies>格式错误");
         return;
       }
       this.preview = JSON.parse(JSON.stringify(this.scu));
-      delete this.preview.area
+      delete this.preview.area;
       this.preview.cookies = cookies;
       this.preview.location = {
-        'lat': 30.630839301216,
-        'lng': 104.079966362848
-      }
+        lat: 30.630839301216,
+        lng: 104.079966362848,
+      };
     },
     onSubmit() {
       if (this.preview == "请点击'预览'") {
@@ -209,6 +212,9 @@ export default {
           }
         });
     },
+    onMapSelect() {
+      this.dialogMapVisible = true;
+    },
   },
 };
 </script>
@@ -226,6 +232,6 @@ export default {
 
 .scumap {
   width: 100%;
-  height: 10%;
+  height: 100%;
 }
 </style>

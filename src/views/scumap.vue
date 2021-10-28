@@ -1,5 +1,4 @@
 <template>
-  <div class="coord-picker">
     <div class="map-container">
       <amap
         cache-key="coord-picker-map"
@@ -103,7 +102,6 @@
         </a-form>
       </amap>
     </div>
-  </div>
 </template>
 
 <script>
