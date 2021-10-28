@@ -33,13 +33,13 @@
             <el-input v-model="scu.userAgent"></el-input>
           </el-form-item>
 
-          <el-form-item label="微服务网页源代码">
+          <el-form-item label="微服务Cookies">
             <el-input
-              v-model="scu.uuid"
+              v-model="scu.cookies"
               placeholder="
 使用Chrome或Edge登录https://wfw.scu.edu.cn/ncov/wap/default/index（健康每日报网页版）
-右键网页空白处，选择'显示网页源代码' (或CTRL+U)
-将网页中所有源代码复制粘贴到这里即可
+F12，切换至Network选项卡，刷新页面
+将index请求的Cookies复制到此处
 "
               :rows="5"
               type="textarea"
@@ -63,6 +63,12 @@
             >
             </el-time-select>
           </el-form-item>
+          <el-form-item label="每日打卡地点">
+            <el-input
+              v-model="scu.area"
+              :disabled="true"
+            ></el-input>
+          </el-form-item>
           <el-form-item label="接受消息的QQ">
             <el-input
               v-model="scu.qqid"
@@ -80,6 +86,7 @@
             <el-card
               class="box-card"
               style="width: 85%; left: 90px; position: relative"
+              hidden="true"
             >
               <amap>
                 <scumap />
@@ -98,6 +105,7 @@
               copyable
               boxed
               sort
+              expanded=true
             ></json-viewer>
           </el-form-item>
         </el-form>
@@ -110,7 +118,7 @@
 <script>
 import axios from "axios";
 import scumap from "./scumap.vue";
-var pattern = /"uid":"(.+?)"/g;
+var pattern = /eai-sess=(.+?); UUkey=(.+?)(?:;|$| )/g
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -121,10 +129,11 @@ export default {
   data() {
     return {
       scu: {
-        uuid: "",
+        cookies: "",
         userAgent: "你的浏览器UA",
         triggerTime: "00:10",
         qqid: "",
+        area: "四川省 成都市 武侯区",
       },
       accessToken: "",
       preview: "请点击'预览'",
@@ -149,28 +158,36 @@ export default {
   },
   methods: {
     onPreview() {
-      if (this.scu.uuid == null) {
-        this.$message.error("<微服务网页源代码>不能为空");
+      if (this.scu.cookies == null) {
+        this.$message.error("<微服务Cookies>不能为空");
         return;
       }
-      var got = pattern.exec(this.scu.uuid);
-      var uuid = "";
-      if (got != null && got.length > 1) {
-        uuid = got[1];
+      var got = pattern.exec(this.scu.cookies);
+      var cookies = {}
+      if (got != null && got.length > 2) {
+        cookies = {
+          'eai-sess': got[1],
+          'UUkey': got[2],
+        }
       } else {
-        this.$message.error("<微服务网页源代码>格式错误");
+        this.$message.error("<微服务Cookies>格式错误");
         return;
       }
-      this.scu.uuid = uuid;
-      this.preview = this.scu;
+      this.preview = JSON.parse(JSON.stringify(this.scu));
+      delete this.preview.area
+      this.preview.cookies = cookies;
+      this.preview.location = {
+        'lat': 30.630839301216,
+        'lng': 104.079966362848
+      }
     },
     onSubmit() {
-      if (isNaN(this.scu.uuid) || this.scu.uuid.length == 0) {
+      if (this.preview == "请点击'预览'") {
         this.$message.warning("请先点击预览，再点击提交");
         return;
       }
-      var postData = this.scu;
-      postData["accessToken"] = this.accessToken;
+      var postData = JSON.parse(JSON.stringify(this.preview));
+      postData.accessToken = this.accessToken;
       axios
         .post("https://ci.scubot.live:12121/set_checkin", postData)
         .then((res) => {
@@ -209,6 +226,6 @@ export default {
 
 .scumap {
   width: 100%;
-  height: 20%;
+  height: 10%;
 }
 </style>
