@@ -84,14 +84,12 @@ F12，切换至Network选项卡，刷新页面
               title="选择定位"
               :visible.sync="dialogMapVisible"
               center
-              top='15px'
+              top="15px"
             >
-                <scumap />
+              <scumap ref="scumap" />
               <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogMapVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogMapVisible = false"
-                  >确 定</el-button
-                >
+                <el-button type="primary" @click="confirmLoc">确 定</el-button>
               </span>
             </el-dialog>
           </div>
@@ -140,6 +138,10 @@ export default {
       accessToken: "",
       preview: "请点击'预览'",
       dialogMapVisible: false,
+      cacheLocation: {
+        lat: 30.630839301216,
+        lng: 104.079966362848,
+      },
     };
   },
   created() {
@@ -179,10 +181,7 @@ export default {
       this.preview = JSON.parse(JSON.stringify(this.scu));
       delete this.preview.area;
       this.preview.cookies = cookies;
-      this.preview.location = {
-        lat: 30.630839301216,
-        lng: 104.079966362848,
-      };
+      this.preview.location = this.cacheLocation;
     },
     onSubmit() {
       if (this.preview == "请点击'预览'") {
@@ -214,6 +213,25 @@ export default {
     },
     onMapSelect() {
       this.dialogMapVisible = true;
+    },
+    confirmLoc() {
+      this.dialogMapVisible = false;
+      this.cacheLocation["lat"] = this.$refs.scumap.position[1];
+      this.cacheLocation["lng"] = this.$refs.scumap.position[0];
+      // get new area info
+      axios
+        .get("https://api.map.baidu.com/reverse_geocoding/v3/", {
+          output: "json",
+          coordtype: "wgs84ll",
+          ak: "0hYGiH3Ob5ZhV0eWzrGVXCD3bEdBCi6L",
+          location: `${this.cacheLocation["lat"]},${this.cacheLocation["lng"]}`,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
   },
 };
