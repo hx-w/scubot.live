@@ -118,7 +118,7 @@ F12，切换至Network选项卡，刷新页面
 <script>
 import axios from "axios";
 import scumap from "./scumap.vue";
-var pattern = /eai-sess=(.+?); UUkey=(.+?)(?:;|$| )/g;
+var pattern = /eai-sess=(.+?); ?UUkey=(.+?)(?:;|$| )/g;
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
