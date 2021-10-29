@@ -66,7 +66,9 @@ F12，切换至Network选项卡，刷新页面
             </el-time-select>
           </el-form-item>
           <el-form-item label="每日打卡地点">
-            <el-input v-model="scu.area" @click.native="onMapSelect"></el-input>
+            <el-input v-model="scu.area" @click.native="onMapSelect">
+              <i slot="prefix" class="el-input__icon el-icon-map-location"></i>
+            </el-input>
           </el-form-item>
           <el-form-item label="接受消息的QQ">
             <el-input
@@ -259,11 +261,12 @@ export default {
     },
     showCookiesNotify() {
       this.cookies_not_inst = this.$notify({
-        title: "获取cookies教程",
+        title: "如何获取cookies",
         dangerouslyUseHTMLString: true,
         duration: 0,
         onClick: this.cookiesNotifyClicked,
-        message: "<strong>点击这里，即可观看教程视频</strong>",
+        showClose: false,
+        message: "点击这里，可观看教程视频<i class='el-icon-video-play'/>",
       });
     },
     closeCookiesNotify() {
