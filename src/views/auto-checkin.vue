@@ -103,9 +103,11 @@ F12，切换至Network选项卡，刷新页面
               top="10px"
               width="80%"
             >
-            <!-- <cookies-video /> -->
-            <bili-video ihtml="https://player.bilibili.com/player.html?aid=633770199&bvid=BV1Rb4y1h7TQ&cid=432741794&page=1&danmaku=0&high_quality=1" />
-            <!-- <bili-video ihtml="https://player.bilibili.com/player.html?aid=90992146&cid=155380603&page=1&danmaku=0&high_quality=1" /> -->
+              <!-- <cookies-video /> -->
+              <bili-video
+                ihtml="https://player.bilibili.com/player.html?aid=633770199&bvid=BV1Rb4y1h7TQ&cid=432741794&page=1&danmaku=0&high_quality=1"
+              />
+              <!-- <bili-video ihtml="https://player.bilibili.com/player.html?aid=90992146&cid=155380603&page=1&danmaku=0&high_quality=1" /> -->
             </el-dialog>
           </div>
           <br />
@@ -134,7 +136,8 @@ F12，切换至Network选项卡，刷新页面
 import axios from "axios";
 import scumap from "./scumap.vue";
 // import CookiesVideo from './cookies-video.vue';
-import BiliVideo from './bili-video.vue';
+import BiliVideo from "./bili-video.vue";
+var varify_pattern = /"uid":"(.+?)"/g;
 var pattern = /eai-sess=(.+?); ?UUkey=(.+?)(?:;|$| )/g;
 
 function sleep(time) {
@@ -151,6 +154,7 @@ export default {
         triggerTime: "00:10",
         qqid: "",
         area: "四川省 成都市 武侯区",
+        uuid: "",
       },
       accessToken: "",
       preview: "请点击'预览'",
@@ -192,14 +196,37 @@ export default {
           "eai-sess": got[1],
           UUkey: got[2],
         };
+        axios
+          .get("https://ci.scubot.live:12121/get_uuid", {
+            params: {
+              eai_sess: cookies["eai-sess"],
+              UUkey: cookies["UUkey"],
+              userAgent: this.scu.userAgent,
+            },
+          })
+          .then((res) => {
+            if (res.status == 200) {
+              this.scu.uuid = res.data["uuid"];
+              this.$message.success("cookies验证成功");
+
+              this.preview = JSON.parse(JSON.stringify(this.scu));
+              delete this.preview.area;
+              this.preview.cookies = cookies;
+              this.preview.location = this.cacheLocation;
+            } else {
+              console.log(res);
+              this.$message.error("出现了一些错误");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            this.$message.error("出现了一些错误");
+          });
       } else {
+        console.log(got);
         this.$message.error("<微服务Cookies>格式错误");
         return;
       }
-      this.preview = JSON.parse(JSON.stringify(this.scu));
-      delete this.preview.area;
-      this.preview.cookies = cookies;
-      this.preview.location = this.cacheLocation;
     },
     onSubmit() {
       if (this.preview == "请点击'预览'") {
@@ -273,8 +300,8 @@ export default {
       this.cookies_not_inst.close();
     },
     cookiesNotifyClicked() {
-        this.dialogVideoVisible = true;
-    }
+      this.dialogVideoVisible = true;
+    },
   },
 };
 </script>
