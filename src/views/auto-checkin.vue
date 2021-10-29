@@ -153,13 +153,13 @@ export default {
         "如果你需要每日打卡消息回执，请主动添加QQ(机器人)：<strong><a href='https://wpa.qq.com/msgrd?v=3&uin=3583618673&site=scubot&from=scubot&menu=yes'>3583618673</a></strong>，验证消息填：<strong><span id='verifyCode' onclick='copy();'>7355608</span></strong>",
       duration: 0,
     });
-    this.$notify.info({
-      title: "功能相关",
-      message:
-        "地图定位功能还未接入，目前打卡定位地点为[四川大学望江校区研究生院]",
-      duration: 0,
-      offset: 120,
-    });
+    // this.$notify.info({
+    //   title: "功能相关",
+    //   message:
+    //     "地图定位功能还未接入，目前打卡定位地点为[四川大学望江校区研究生院]",
+    //   duration: 0,
+    //   offset: 120,
+    // });
   },
   methods: {
     onPreview() {
