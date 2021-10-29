@@ -101,7 +101,9 @@ F12，切换至Network选项卡，刷新页面
               top="10px"
               width="80%"
             >
-            <cookies-video />
+            <!-- <cookies-video /> -->
+            <bili-video ihtml="https://player.bilibili.com/player.html?aid=633770199&bvid=BV1Rb4y1h7TQ&cid=432741794&page=1&danmaku=0&high_quality=1" />
+            <!-- <bili-video ihtml="https://player.bilibili.com/player.html?aid=90992146&cid=155380603&page=1&danmaku=0&high_quality=1" /> -->
             </el-dialog>
           </div>
           <br />
@@ -129,7 +131,8 @@ F12，切换至Network选项卡，刷新页面
 <script>
 import axios from "axios";
 import scumap from "./scumap.vue";
-import CookiesVideo from './cookies-video.vue';
+// import CookiesVideo from './cookies-video.vue';
+import BiliVideo from './bili-video.vue';
 var pattern = /eai-sess=(.+?); ?UUkey=(.+?)(?:;|$| )/g;
 
 function sleep(time) {
@@ -137,7 +140,7 @@ function sleep(time) {
 }
 
 export default {
-  components: { scumap, CookiesVideo },
+  components: { scumap, BiliVideo },
   data() {
     return {
       scu: {
