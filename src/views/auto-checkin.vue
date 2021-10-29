@@ -219,18 +219,27 @@ export default {
       this.cacheLocation["lat"] = this.$refs.scumap.position[1];
       this.cacheLocation["lng"] = this.$refs.scumap.position[0];
       // get new area info
-      axios
-        .get("https://api.map.baidu.com/reverse_geocoding/v3/", {
-          output: "json",
-          coordtype: "wgs84ll",
-          ak: "0hYGiH3Ob5ZhV0eWzrGVXCD3bEdBCi6L",
-          location: `${this.cacheLocation["lat"]},${this.cacheLocation["lng"]}`,
+      this.$jsonp("https://api.map.baidu.com/reverse_geocoding/v3/", {
+        output: "json",
+        coordtype: "wgs84ll",
+        ak: "0hYGiH3Ob5ZhV0eWzrGVXCD3bEdBCi6L",
+        location: `${this.cacheLocation["lat"]},${this.cacheLocation["lng"]}`,
+      })
+        .then((response) => {
+          if (response.status != 0) {
+            console.log(response);
+            this.$message.error("获取地理位置信息失败");
+          }
+          else {
+            console.log(response.result)
+            var addr = response.result.addressComponent;
+            this.scu.area = `${addr.province} ${addr.city} ${addr.district}`;
+            this.$message.success("地理位置获取：" + this.scu.area);
+          }
         })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
+        .catch((error) => {
+          console.log(error.response);
+          this.$message.error("获取地理位置信息失败");
         });
     },
   },
