@@ -43,6 +43,8 @@ F12，切换至Network选项卡，刷新页面
 "
               :rows="5"
               type="textarea"
+              @focus="showCookiesNotify"
+              @blur="closeCookiesNotify"
             ></el-input>
             <el-link
               type="primary"
@@ -92,6 +94,15 @@ F12，切换至Network选项卡，刷新页面
                 <el-button type="primary" @click="confirmLoc">确 定</el-button>
               </span>
             </el-dialog>
+            <el-dialog
+              title="如何获取Cookies"
+              :visible.sync="dialogVideoVisible"
+              center
+              top="10px"
+              width="80%"
+            >
+            <cookies-video />
+            </el-dialog>
           </div>
           <br />
           <el-form-item>
@@ -118,6 +129,7 @@ F12，切换至Network选项卡，刷新页面
 <script>
 import axios from "axios";
 import scumap from "./scumap.vue";
+import CookiesVideo from './cookies-video.vue';
 var pattern = /eai-sess=(.+?); ?UUkey=(.+?)(?:;|$| )/g;
 
 function sleep(time) {
@@ -125,7 +137,7 @@ function sleep(time) {
 }
 
 export default {
-  components: { scumap },
+  components: { scumap, CookiesVideo },
   data() {
     return {
       scu: {
@@ -138,6 +150,7 @@ export default {
       accessToken: "",
       preview: "请点击'预览'",
       dialogMapVisible: false,
+      dialogVideoVisible: false,
       cacheLocation: {
         lat: 30.630839301216,
         lng: 104.079966362848,
@@ -229,9 +242,8 @@ export default {
           if (response.status != 0) {
             console.log(response);
             this.$message.error("获取地理位置信息失败");
-          }
-          else {
-            console.log(response.result)
+          } else {
+            console.log(response.result);
             var addr = response.result.addressComponent;
             this.scu.area = `${addr.province} ${addr.city} ${addr.district}`;
             this.$message.success("地理位置获取：" + this.scu.area);
@@ -242,6 +254,21 @@ export default {
           this.$message.error("获取地理位置信息失败");
         });
     },
+    showCookiesNotify() {
+      this.cookies_not_inst = this.$notify({
+        title: "获取cookies教程",
+        dangerouslyUseHTMLString: true,
+        duration: 0,
+        onClick: this.cookiesNotifyClicked,
+        message: "<strong>点击这里，即可观看教程视频</strong>",
+      });
+    },
+    closeCookiesNotify() {
+      this.cookies_not_inst.close();
+    },
+    cookiesNotifyClicked() {
+        this.dialogVideoVisible = true;
+    }
   },
 };
 </script>
