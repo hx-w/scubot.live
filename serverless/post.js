@@ -5,14 +5,14 @@ exports.handler = async function (event, context) {
         console.error(err)
     })
     redisClient.auth(process.env.REDIS_PASSWORD)
-    client.set("test", event.body, function (error, res) {
+    redisClient.set("test", event.body, function (error, res) {
         if (error) {
             console.log(error);
         } else {
             console.log(res);
         };
     });
-    client.end(true);
+    redisClient.end(true);
 
     return {
         statusCode: 200,
