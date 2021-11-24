@@ -137,8 +137,10 @@ import axios from "axios";
 import scumap from "./scumap.vue";
 // import CookiesVideo from './cookies-video.vue';
 import BiliVideo from "./bili-video.vue";
-var varify_pattern = /"uid":"(.+?)"/g;
-var pattern = /eai-sess=(.+?); ?UUkey=(.+?)(?:;|$| )/g;
+import uidParser from "../assets/js/parse_uuid";
+// var pattern = /eai-sess=(.+?); ?UUkey=(.+?)(?:;|$| )/g;
+const ePattern = /eai-sess=(.+?)(?:;|$| )/g
+const uPattern = /UUkey=(.+?)(?:;|$| )/g
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -179,44 +181,34 @@ export default {
   methods: {
     onPreview() {
       if (this.scu.cookies == null) {
-        this.$message.error("<微服务Cookies>不能为空");
+        this.$message.error("<微服务Cookies>不能为空")
         return;
       }
-      var got = pattern.exec(this.scu.cookies);
+      const eGot = ePattern.exec(this.scu.cookies)
+      const uGot = uPattern.exec(this.scu.cookies)
       var cookies = {};
-      if (got != null && got.length > 2) {
+      if (eGot != null && eGot.length > 1 && uGot != null && uGot.length > 1) {
         cookies = {
-          "eai-sess": got[1],
-          UUkey: got[2],
+          "eai-sess": eGot[1],
+          "UUkey": uGot[1],
         };
-        axios
-          .get("https://ci.scubot.live:12121/get_uuid", {
-            params: {
-              eai_sess: cookies["eai-sess"],
-              UUkey: cookies["UUkey"],
-              userAgent: this.scu.userAgent,
-            },
-          })
-          .then((res) => {
-            if (res.status == 200) {
-              this.scu.uuid = res.data["uuid"];
-              this.$message.success("cookies验证成功");
+        uidParser
+          .get_uuid(cookies, this.scu.userAgent)
+          .then((resp) => {
+            this.scu.uuid = resp;
+            this.$message.success("cookies验证成功");
 
-              this.preview = JSON.parse(JSON.stringify(this.scu));
-              delete this.preview.area;
-              this.preview.cookies = cookies;
-              this.preview.location = this.cacheLocation;
-            } else {
-              console.log(res);
-              this.$message.error("出现了一些错误");
-            }
+            this.preview = JSON.parse(JSON.stringify(this.scu));
+            delete this.preview.area;
+            this.preview.cookies = cookies;
+            this.preview.location = this.cacheLocation;
           })
           .catch((error) => {
             console.log(error);
             this.$message.error("出现了一些错误");
           });
       } else {
-        console.log(got);
+        console.log(eGot, uGot);
         this.$message.error("<微服务Cookies>格式错误");
         return;
       }

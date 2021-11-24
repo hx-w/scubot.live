@@ -1,7 +1,3 @@
-Copyright © Blog of IvisTang
-Link: https://www.ivistang.com/articles/167/
-
-<!--docs/.vuepress/components/iframeComp.vue-->
 <template>
   <iframe
     class="video-iframe"
