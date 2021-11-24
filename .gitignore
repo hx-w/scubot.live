@@ -1,3 +1,5 @@
+go.mod
+go.sum
 auto-checkin-antd.vue
 # Logs
 logs
