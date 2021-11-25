@@ -53,12 +53,14 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 
 	// check exists
 	triggerTime := reqJson["content"].(map[string]interface{})["triggerTime"].(string)
-	message := "操作成功！预计每日[" + triggerTime + "]进行打卡"
+	var message string
 	_, err := rdb.Get(SCUBotKey(uid)).Result()
 	if err == redis.Nil {
-		message = "查询到您已有注册信息，原有信息已被覆盖，预计每日[" + triggerTime + "]进行打卡"
+		message = "操作成功！预计每日[" + triggerTime + "]进行打卡"
 	} else if err != nil {
 		return Resp(403, "{\"detail\": \"数据库操作错误\"}")
+	} else {
+		message = "查询到您已有注册信息，原有信息已被覆盖，预计每日[" + triggerTime + "]进行打卡"
 	}
 
 	err = rdb.Set(SCUBotKey(uid), string(content), 0).Err()
