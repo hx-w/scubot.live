@@ -135,10 +135,7 @@ F12，切换至Network选项卡，刷新页面
 <script>
 import axios from "axios";
 import scumap from "./scumap.vue";
-// import CookiesVideo from './cookies-video.vue';
 import BiliVideo from "./bili-video.vue";
-import uidParser from "../assets/js/parse_uuid";
-// var pattern = /eai-sess=(.+?); ?UUkey=(.+?)(?:;|$| )/g;
 const ePattern = /eai-sess=(.+?)(?:;|$| )/g
 const uPattern = /UUkey=(.+?)(?:;|$| )/g
 
@@ -192,10 +189,15 @@ export default {
           "eai-sess": eGot[1],
           "UUkey": uGot[1],
         };
-        uidParser
-          .get_uuid(cookies, this.scu.userAgent)
+        axios
+          .get("https://www.scubot.live/.netlify/functions/uuid", {
+            params: {
+              'UUkey': cookies["UUkey"],
+              'eai-sess': cookies["eai-sess"]
+            }
+          })
           .then((resp) => {
-            this.scu.uuid = resp;
+            this.scu.uuid = JSON.parse(resp)["uid"];
             this.$message.success("cookies验证成功");
 
             this.preview = JSON.parse(JSON.stringify(this.scu));
