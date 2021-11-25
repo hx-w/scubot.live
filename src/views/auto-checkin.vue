@@ -197,6 +197,7 @@ export default {
             }
           })
           .then((resp) => {
+            console.log(resp.data)
             this.scu.uuid = JSON.parse(resp.data)["uid"];
             this.$message.success("cookies验证成功");
 
