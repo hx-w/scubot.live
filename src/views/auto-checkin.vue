@@ -112,8 +112,8 @@ F12，切换至Network选项卡，刷新页面
           </div>
           <br />
           <el-form-item>
-            <el-button type="warning" @click="onPreview">预览</el-button>
-            <el-button type="primary" @click="onSubmit">提交</el-button>
+            <el-button type="warning" @click="onPreview" style="width:100px">验证</el-button>
+            <el-button type="primary" @click="onSubmit" style="width:100px; margin-left:20px">提交</el-button>
           </el-form-item>
           <el-form-item>
             <json-viewer
@@ -154,7 +154,7 @@ export default {
         uid: "",
       },
       accessToken: "",
-      preview: "请点击'预览'",
+      preview: "请点击'验证'",
       dialogMapVisible: false,
       dialogVideoVisible: false,
       cacheLocation: {
@@ -216,8 +216,8 @@ export default {
       }
     },
     onSubmit() {
-      if (this.preview == "请点击'预览'") {
-        this.$message.warning("请先点击预览，再点击提交");
+      if (this.preview == "请点击'验证'") {
+        this.$message.warning("请先点击验证，再点击提交");
         return;
       }
       const postData = {
