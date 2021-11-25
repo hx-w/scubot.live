@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -23,31 +24,38 @@ func initClient() (err error) {
     return nil
 }
 
-func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	if initClient() != nil {
-		return &events.APIGatewayProxyResponse{
-			StatusCode:        403,
-			Headers:           map[string]string{"Content-Type": "application/json"},
-			Body:              "{\"detail\": \"redis connect refused!\"}",
-		}, nil
-	}
-	err := rdb.Set("score", request.Body, 0).Err()
-    if err != nil {
-		return &events.APIGatewayProxyResponse{
-			StatusCode:        403,
-			Headers:           map[string]string{"Content-Type": "application/json"},
-			Body:              "{\"detail\": \"redis refused!\"}",
-		}, nil
-    }
-
+func Resp(StatusCode int, Body string) (*events.APIGatewayProxyResponse, error) {
 	return &events.APIGatewayProxyResponse{
-		StatusCode:        200,
-		Headers:           map[string]string{"Content-Type": "application/json"},
-		Body:              "set!",
+		StatusCode: int(StatusCode),
+		Headers:	map[string]string{"Content-Type": "application/json"},
+		Body: 		Body,
+		IsBase64Encoded: false,
 	}, nil
 }
 
+func SCUBotKey(uid string) string {
+	const PREFIX = "scubot-"
+	return PREFIX + uid
+}
+
+func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	if initClient() != nil {
+		return Resp(403, "{\"detail\": \"数据库连接错误\"}")
+	}
+	var reqJson map[string]string
+    if err := json.Unmarshal([]byte(request.Body), &reqJson); err != nil {
+		return Resp(403, "{\"detail\": \"请求体错误\"")
+    }
+	content := reqJson["content"]
+	uid := reqJson["uid"]
+	err := rdb.Set(SCUBotKey(uid), content, 0).Err()
+    if err != nil {
+		return Resp(403, "{\"detail\": \"数据库操作错误\"}")
+    }
+
+	return Resp(200, "{\"message\":" + content + "}")
+}
+
 func main() {
-	// Make the handler available for Remote Procedure Call
 	lambda.Start(handler)
 }

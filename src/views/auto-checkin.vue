@@ -136,8 +136,6 @@ F12，切换至Network选项卡，刷新页面
 import axios from "axios";
 import scumap from "./scumap.vue";
 import BiliVideo from "./bili-video.vue";
-const ePattern = /eai-sess=(.+?)(?:;|$| )/g
-const uPattern = /UUkey=(.+?)(?:;|$| )/g
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -181,6 +179,8 @@ export default {
         this.$message.error("<微服务Cookies>不能为空")
         return;
       }
+      const ePattern = /eai-sess=(.+?)(?:;|$| )/g
+      const uPattern = /UUkey=(.+?)(?:;|$| )/g
       const eGot = ePattern.exec(this.scu.cookies)
       const uGot = uPattern.exec(this.scu.cookies)
       var cookies = {};
@@ -220,10 +220,12 @@ export default {
         this.$message.warning("请先点击预览，再点击提交");
         return;
       }
-      var postData = JSON.parse(JSON.stringify(this.preview));
-      postData.accessToken = this.accessToken;
+      const postData = {
+        'content': JSON.parse(JSON.stringify(this.preview)),
+        'token': this.accessToken,
+        'uid': this.preview.uuid,
+      }
       axios
-        // .post("https://ci.scubot.live:12121/set_checkin", postData)
         .post("https://www.scubot.live/.netlify/functions/post", postData)
         .then((res) => {
           if (res.status == 200) {
