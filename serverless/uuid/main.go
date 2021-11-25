@@ -1,21 +1,20 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
+	"regexp"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
 //http请求
-func httpHandle(method, urlVal string) string {
+func httpHandler(method, urlVal string) (bool, string) {
 	client := &http.Client{}
 	var req *http.Request
  
-	//添加cookie，key为X-Xsrftoken，value为df41ba54db5011e89861002324e63af81
-        //可以添加多个cookie
 	req, _ = http.NewRequest(method, urlVal, nil)
 	cookies_uukey := &http.Cookie{
 		Name: "UUkey",
@@ -30,30 +29,48 @@ func httpHandle(method, urlVal string) string {
 	req.AddCookie(cookies_uukey)
 	req.AddCookie(cookies_eai)
  
-	// req.Header.Add("X-Xsrftoken","b6d695bbdcd111e8b681002324e63af81")
- 
 	resp, err := client.Do(req)
  
 	if err != nil {
-		log.Fatal(err)
+		return false, ""
 	}
 	defer resp.Body.Close()
 	b, _ := ioutil.ReadAll(resp.Body)
-	return string(b)
+	return true, string(b)
+}
+
+func regHandler(respBody string) (bool, string) {
+	pattern := regexp.MustCompile(`var def =.*"uid":"(\d*)".*;`)
+	result := pattern.FindAllStringSubmatch(respBody, -1)
+	fmt.Println(result)
+	if len(result) == 1 {
+		return true, result[0][1]
+	} else {
+		return false, ""
+	}
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	ret := httpHandle("GET", "https://wfw.scu.edu.cn/ncov/wap/default/index")
+	// request.QueryStringParameters
+	success, retBody := httpHandler("GET", "https://wfw.scu.edu.cn/ncov/wap/default/index")
+	if success {
+		parse_success, uid := regHandler(retBody)
+		if parse_success {
+			return &events.APIGatewayProxyResponse{
+				StatusCode:        200,
+				Headers:           map[string]string{"Content-Type": "application/json"},
+				Body:              "{\"uid\": " + uid + "}",
+			}, nil
+		}
+	}
 	return &events.APIGatewayProxyResponse{
-		StatusCode:        200,
-		Headers:           map[string]string{"Content-Type": "text/plain"},
-		Body:              ret,
-		IsBase64Encoded:   false,
+		StatusCode:        403,
+		Headers:           map[string]string{"Content-Type": "application/json"},
+		Body:              "error",
 	}, nil
 }
 
 func main() {
 	// Make the handler available for Remote Procedure Call
-	// fmt.Println(httpHandle("GET", "https://wfw.scu.edu.cn/ncov/wap/default/index"))
 	lambda.Start(handler)
 }
