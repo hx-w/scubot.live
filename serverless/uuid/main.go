@@ -11,19 +11,19 @@ import (
 )
 
 //http请求
-func httpHandler(method, urlVal string) (bool, string) {
+func httpHandler(method, urlVal, UUkey, eai_sess string) (bool, string) {
 	client := &http.Client{}
 	var req *http.Request
  
 	req, _ = http.NewRequest(method, urlVal, nil)
 	cookies_uukey := &http.Cookie{
 		Name: "UUkey",
-		Value: "510ff917237279fe13fbf2558309dfbd",
+		Value: UUkey,
 		HttpOnly: true,
 	}
 	cookies_eai := &http.Cookie{
 		Name: "eai-sess",
-		Value: "jq3ssf35cnhlfbodaa4ppcrsd2",
+		Value: eai_sess,
 		HttpOnly: true,
 	}
 	req.AddCookie(cookies_uukey)
@@ -51,8 +51,16 @@ func regHandler(respBody string) (bool, string) {
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	// request.QueryStringParameters
-	success, retBody := httpHandler("GET", "https://wfw.scu.edu.cn/ncov/wap/default/index")
+	UUkey, okU := request.QueryStringParameters["UUkey"]
+	eai_sess, okE := request.QueryStringParameters["eai-sess"]
+	if !okE || !okU {
+		return &events.APIGatewayProxyResponse{
+			StatusCode:        403,
+			Headers:           map[string]string{"Content-Type": "application/json"},
+			Body:              "parameter error",
+		}, nil
+	}
+	success, retBody := httpHandler("GET", "https://wfw.scu.edu.cn/ncov/wap/default/index", UUkey, eai_sess)
 	if success {
 		parse_success, uid := regHandler(retBody)
 		if parse_success {
@@ -71,6 +79,5 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 }
 
 func main() {
-	// Make the handler available for Remote Procedure Call
 	lambda.Start(handler)
 }
