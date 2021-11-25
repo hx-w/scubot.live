@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"regexp"
@@ -10,7 +9,6 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-//http请求
 func httpHandler(method, urlVal, UUkey, eai_sess string) (bool, string) {
 	client := &http.Client{}
 	var req *http.Request
@@ -42,7 +40,6 @@ func httpHandler(method, urlVal, UUkey, eai_sess string) (bool, string) {
 func regHandler(respBody string) (bool, string) {
 	pattern := regexp.MustCompile(`var def =.*"uid":"(\d*)".*;`)
 	result := pattern.FindAllStringSubmatch(respBody, -1)
-	fmt.Println(result)
 	if len(result) == 1 {
 		return true, result[0][1]
 	} else {
