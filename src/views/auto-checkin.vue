@@ -151,7 +151,7 @@ export default {
         triggerTime: "00:10",
         qqid: "",
         area: "四川省 成都市 武侯区",
-        uuid: "",
+        uid: "",
       },
       accessToken: "",
       preview: "请点击'预览'",
@@ -197,7 +197,7 @@ export default {
             }
           })
           .then((resp) => {
-            this.scu.uuid = resp.data["uid"];
+            this.scu.uid = resp.data["uid"];
             this.$message.success("cookies验证成功");
 
             this.preview = JSON.parse(JSON.stringify(this.scu));
@@ -223,7 +223,7 @@ export default {
       const postData = {
         'content': JSON.parse(JSON.stringify(this.preview)),
         'token': this.accessToken,
-        'uid': this.preview.uuid,
+        'uid': this.preview.uid,
       }
       axios
         .post("https://www.scubot.live/.netlify/functions/post", postData)
