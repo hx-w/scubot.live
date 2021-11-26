@@ -8,19 +8,19 @@
             align="center"
             alt="runtime"
             hspace="5"
-            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fci.scubot.live%3A12121%2Fget_badge%3Ftype_%3D2"
+            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.scubot.live%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D0"
           />
           <img
             align="center"
             alt="total"
             hspace="5"
-            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fci.scubot.live%3A12121%2Fget_badge%3Ftype_%3D1"
+            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.scubot.live%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D1"
           />
           <img
             align="center"
             alt="valid workflow"
             hspace="5"
-            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fci.scubot.live%3A12121%2Fget_badge%3Ftype_%3D0"
+            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.scubot.live%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D2"
           />
         </div>
         <br />
