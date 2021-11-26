@@ -58,12 +58,12 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		return Resp(403, "{\"detail\": \"数据库连接错误\"}")
 	}
 	if typeType, ok := request.QueryStringParameters["type_"]; ok {
-		if typeType == "1" {
-			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"有效工作流\", \"message\": \"%d项\", \"color\": \"ad453f\"", WorkFlowNum()))
+		if typeType == "0" {
+			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"有效工作流\", \"message\": \"%d项\", \"color\": \"ad453f\"}", WorkFlowNum()))
+		} else if typeType == "1" {
+			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"全校打卡日均\", \"message\": \"%d人\", \"color\": \"2f90b9\"}", 0))
 		} else if typeType == "2" {
-			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"全校打卡日均\", \"message\": \"%d人\", \"color\": \"2f90b9\"", 0))
-		} else if typeType == "3" {
-			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"运行时间\", \"message\": \"%d天\", \"color\": \"3c9566\"", DayDiff()))
+			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"运行时间\", \"message\": \"%d天\", \"color\": \"3c9566\"}", DayDiff()))
 		}
 	}
 	return Resp(403, "{\"detail\": \"参数错误\"}")
