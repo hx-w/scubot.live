@@ -9,8 +9,25 @@
       is-hotspot
       @click="onMapClick"
     >
-      <amap-marker v-if="position" :position.sync="position" draggable />
-
+      <amap-scale />
+      <amap-tool-bar
+        :position="{
+          top: '110px',
+          left: '10px',
+        }"
+      />
+      <!-- <amap-marker v-if="position" :position.sync="position" draggable /> -->
+      <amap-circle
+        :center.sync="position"
+        :radius.sync="radius"
+        :fill-color="fill"
+        :fill-opacity="0.5"
+        :stroke-color="stroke"
+        :editable="false"
+        :draggable="true"
+        stroke-style="dashed"
+        :stroke-dasharray="[10, 10]"
+      />
       <a-card
         :body-style="{
           'max-height': '450px',
@@ -99,6 +116,9 @@ export default {
       pageIndex: 1,
       pageSize: 10,
       total: 0,
+      radius: 50,
+      fill: "#409EFF",
+      stroke: "#000A58",
     };
   },
   computed: {
@@ -216,7 +236,7 @@ export default {
       text-overflow: ellipsis;
       flex: 1;
       overflow: hidden;
-      white-space: nowrap;
+      white-space: normal;
     }
   }
 

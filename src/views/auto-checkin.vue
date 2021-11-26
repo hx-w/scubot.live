@@ -55,6 +55,8 @@ F12，切换至Network选项卡，刷新页面
           </el-form-item>
           <el-form-item label="每日打卡时间">
             <el-time-select
+              @focus="showTimeHint"
+              @blur="closeTimeHint"
               v-model="scu.triggerTime"
               :picker-options="{
                 start: '00:10',
@@ -314,6 +316,18 @@ export default {
     qqChanged(value) {
       this.avatar_url = `https://q1.qlogo.cn/g?b=qq&nk=${value}&s=640`;
     },
+    showTimeHint() {
+      this.timeHintInst = this.$notify.info({
+        title: "触发时间的随机性",
+        showClose: false,
+        dangerouslyUseHTMLString: true,
+        message: "实际触发时间会包含<strong>正负1分钟内</strong>的随机偏移",
+        duration: 0
+      })
+    },
+    closeTimeHint() {
+      this.timeHintInst.close()
+    }
   },
 };
 </script>
