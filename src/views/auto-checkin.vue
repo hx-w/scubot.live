@@ -71,10 +71,21 @@ F12，切换至Network选项卡，刷新页面
             </el-input>
           </el-form-item>
           <el-form-item label="接受消息的QQ">
-            <el-input
-              v-model="scu.qqid"
-              placeholder="填写自己的QQ用于接受打卡回执，留空为不接受回执。"
-            ></el-input>
+            <el-row>
+              <el-col :span="1">
+                <el-avatar :size="36" src="https://empty">
+                  <img :src="avatar_url" />
+                </el-avatar>
+              </el-col>
+              <el-col :span="23" style="padding-left: 10px">
+                <el-input
+                  v-model="scu.qqid"
+                  placeholder="填写自己的QQ用于接受打卡回执，留空为不接受回执。"
+                  @change="qqChanged"
+                >
+                </el-input>
+              </el-col>
+            </el-row>
           </el-form-item>
           <el-form-item label="Access Token">
             <el-input
@@ -112,8 +123,15 @@ F12，切换至Network选项卡，刷新页面
           </div>
           <br />
           <el-form-item>
-            <el-button type="warning" @click="onPreview" style="width:100px">验证</el-button>
-            <el-button type="primary" @click="onSubmit" style="width:100px; margin-left:20px">提交</el-button>
+            <el-button type="warning" @click="onPreview" style="width: 100px"
+              >验证</el-button
+            >
+            <el-button
+              type="primary"
+              @click="onSubmit"
+              style="width: 100px; margin-left: 20px"
+              >提交</el-button
+            >
           </el-form-item>
           <el-form-item>
             <json-viewer
@@ -161,6 +179,7 @@ export default {
         lat: 30.630839301216,
         lng: 104.079966362848,
       },
+      avatar_url: "https://q1.qlogo.cn/g?b=qq&nk=1&s=640",
     };
   },
   created() {
@@ -176,25 +195,25 @@ export default {
   methods: {
     onPreview() {
       if (this.scu.cookies == null) {
-        this.$message.error("<微服务Cookies>不能为空")
+        this.$message.error("<微服务Cookies>不能为空");
         return;
       }
-      const ePattern = /eai-sess=(.+?)(?:;|$| )/g
-      const uPattern = /UUkey=(.+?)(?:;|$| )/g
-      const eGot = ePattern.exec(this.scu.cookies)
-      const uGot = uPattern.exec(this.scu.cookies)
+      const ePattern = /eai-sess=(.+?)(?:;|$| )/g;
+      const uPattern = /UUkey=(.+?)(?:;|$| )/g;
+      const eGot = ePattern.exec(this.scu.cookies);
+      const uGot = uPattern.exec(this.scu.cookies);
       var cookies = {};
       if (eGot != null && eGot.length > 1 && uGot != null && uGot.length > 1) {
         cookies = {
           "eai-sess": eGot[1],
-          "UUkey": uGot[1],
+          UUkey: uGot[1],
         };
         axios
           .get("https://www.scubot.live/.netlify/functions/uuid", {
             params: {
-              'UUkey': cookies["UUkey"],
-              'eai-sess': cookies["eai-sess"]
-            }
+              UUkey: cookies["UUkey"],
+              "eai-sess": cookies["eai-sess"],
+            },
           })
           .then((resp) => {
             this.scu.uid = resp.data["uid"];
@@ -221,10 +240,10 @@ export default {
         return;
       }
       const postData = {
-        'content': JSON.parse(JSON.stringify(this.preview)),
-        'token': this.accessToken,
-        'uid': this.preview.uid,
-      }
+        content: JSON.parse(JSON.stringify(this.preview)),
+        token: this.accessToken,
+        uid: this.preview.uid,
+      };
       axios
         .post("https://www.scubot.live/.netlify/functions/post", postData)
         .then((res) => {
@@ -291,6 +310,9 @@ export default {
     },
     cookiesNotifyClicked() {
       this.dialogVideoVisible = true;
+    },
+    qqChanged(value) {
+      this.avatar_url = `https://q1.qlogo.cn/g?b=qq&nk=${value}&s=640`;
     },
   },
 };
