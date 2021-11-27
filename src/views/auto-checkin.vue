@@ -197,10 +197,10 @@ export default {
       loading_check: false,
       loading_submit: false,
       display_list: [
-        "服务器地理位置：成都；出口IP随机",
+        "成都服务器集群；不固定出口IP",
         "自定义打卡定位地点，支持范围选择",
         "保存原有个人信息模板，只针对定位信息做更改",
-        "QQ机器人准时反馈打卡状态",
+        "QQ机器人准确反馈打卡状态",
         "在线查询打卡日志(TODO)"
       ]
     };
