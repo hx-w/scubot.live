@@ -79,7 +79,7 @@ F12，切换至Network选项卡，刷新页面
                   <img :src="avatar_url" />
                 </el-avatar>
               </el-col>
-              <el-col :span="23" style="padding-left: 10px">
+              <el-col :span="23" style="padding-left: 1px">
                 <el-input
                   v-model="scu.qqid"
                   placeholder="填写自己的QQ用于接受打卡回执，留空为不接受回执。"
