@@ -1,6 +1,6 @@
 <template>
   <el-container direction="vertical">
-    <el-row>
+    <el-row justify="center" type="flex">
       <el-header>
         <h1 align="center">SCU健康每日报自动打卡工作流</h1>
         <div align="center">
@@ -23,13 +23,12 @@
             src="https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.scubot.com%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D2"
           />
         </div>
-        <br />
       </el-header>
     </el-row>
     <el-row justify="center" type="flex">
-      <el-col :span="20">
-        <el-form ref="scu" :model="scu" label-width="180px" size="large">
-          <el-form-item label="常用的浏览器UA">
+      <el-col :span="17">
+        <el-form ref="scu" :model="scu" label-width="115px">
+          <el-form-item label="常用浏览器UA">
             <el-input v-model="scu.userAgent"></el-input>
           </el-form-item>
 
@@ -79,7 +78,7 @@ F12，切换至Network选项卡，刷新页面
                   <img :src="avatar_url" />
                 </el-avatar>
               </el-col>
-              <el-col :span="23" style="padding-left: 1px">
+              <el-col :span="23" style="padding-left: 10px">
                 <el-input
                   v-model="scu.qqid"
                   placeholder="填写自己的QQ用于接受打卡回执，留空为不接受回执。"
@@ -189,6 +188,9 @@ export default {
       avatar_url: "https://q1.qlogo.cn/g?b=qq&nk=1&s=640",
       loading_check: false,
       loading_submit: false,
+      display_list: [
+        "哈哈", "?"
+      ]
     };
   },
   created() {
@@ -361,5 +363,19 @@ export default {
 .scumap {
   width: 100%;
   height: 100%;
+}
+.el-carousel__item h2 {
+  color: #2A3344;
+  font-size: 18px;
+  opacity: 0.75;
+  line-height: 200px;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #DFEEE7;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #FFF8DC;
 }
 </style>
