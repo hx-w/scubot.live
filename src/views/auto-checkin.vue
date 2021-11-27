@@ -125,13 +125,18 @@ F12，切换至Network选项卡，刷新页面
           </div>
           <br />
           <el-form-item>
-            <el-button type="warning" @click="onPreview" style="width: 100px"
+            <el-button
+              type="warning"
+              @click="onPreview"
+              style="width: 100px"
+              :loading="loading_check"
               >验证</el-button
             >
             <el-button
               type="primary"
               @click="onSubmit"
               style="width: 100px; margin-left: 20px"
+              :loading="loading_submit"
               >提交</el-button
             >
           </el-form-item>
@@ -182,6 +187,8 @@ export default {
         lng: 104.079966362848,
       },
       avatar_url: "https://q1.qlogo.cn/g?b=qq&nk=1&s=640",
+      loading_check: false,
+      loading_submit: false,
     };
   },
   created() {
@@ -196,8 +203,10 @@ export default {
   },
   methods: {
     onPreview() {
+      this.loading_check = true;
       if (this.scu.cookies == null) {
         this.$message.error("<微服务Cookies>不能为空");
+        this.loading_check = false;
         return;
       }
       const ePattern = /eai-sess=(.+?)(?:;|$| )/g;
@@ -225,14 +234,17 @@ export default {
             delete this.preview.area;
             this.preview.cookies = cookies;
             this.preview.location = this.cacheLocation;
+            this.loading_check = false;
           })
           .catch((error) => {
             console.log(error);
             this.$message.error("出现了一些错误");
+            this.loading_check = false;
           });
       } else {
         console.log(eGot, uGot);
         this.$message.error("<微服务Cookies>格式错误");
+        this.loading_check = false;
         return;
       }
     },
@@ -241,6 +253,7 @@ export default {
         this.$message.warning("请先点击验证，再点击提交");
         return;
       }
+      this.loading_submit = true;
       const postData = {
         content: JSON.parse(JSON.stringify(this.preview)),
         token: this.accessToken,
@@ -256,6 +269,7 @@ export default {
           } else {
             this.$message.error("出现了一些错误，请检查表单是否填写正确");
           }
+          this.loading_submit = false;
         })
         .catch((res) => {
           this.$message.error("出现了一些错误，请检查表单是否填写正确");
@@ -265,6 +279,7 @@ export default {
               this.$message.error("错误：" + res.response.data["detail"]);
             });
           }
+          this.loading_submit = false;
         });
     },
     onMapSelect() {
@@ -322,12 +337,12 @@ export default {
         showClose: false,
         dangerouslyUseHTMLString: true,
         message: "实际触发时间会包含<strong>正负1分钟内</strong>的随机偏移",
-        duration: 0
-      })
+        duration: 0,
+      });
     },
     closeTimeHint() {
-      this.timeHintInst.close()
-    }
+      this.timeHintInst.close();
+    },
   },
 };
 </script>
