@@ -2,7 +2,7 @@
   <el-container direction="vertical">
     <el-row justify="center" type="flex">
       <el-header>
-        <h1 align="center">SCU健康每日报自动打卡工作流</h1>
+        <h1 align="center" style="font-size:24px">SCU健康每日报自动打卡工作流</h1>
         <div align="center">
           <img
             align="center"
@@ -25,6 +25,14 @@
         </div>
       </el-header>
     </el-row>
+    <br />
+      <div align="center" style="display:flex; display:-webkit-flex; text-align:center; justify-content:center; align-items:center;">
+        <el-carousel :interval="4000" height="90px" style="width:600px">
+          <el-carousel-item v-for="item in display_list" :key="item">
+            <h2 class="medium">{{ item }}</h2>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
     <el-row justify="center" type="flex">
       <el-col :span="17">
         <el-form ref="scu" :model="scu" label-width="115px">
@@ -189,7 +197,11 @@ export default {
       loading_check: false,
       loading_submit: false,
       display_list: [
-        "哈哈", "?"
+        "服务器地理位置：成都；出口IP随机",
+        "自定义打卡定位地点，支持范围选择",
+        "保存原有个人信息模板，只针对定位信息做更改",
+        "QQ机器人准时反馈打卡状态",
+        "在线查询打卡日志(TODO)"
       ]
     };
   },
@@ -366,16 +378,16 @@ export default {
 }
 .el-carousel__item h2 {
   color: #2A3344;
-  font-size: 18px;
+  font-size: 20px;
   opacity: 0.75;
-  line-height: 200px;
+  line-height: 100px;
 }
 
 .el-carousel__item:nth-child(2n) {
-  background-color: #DFEEE7;
+  background-color: #fff;
 }
 
 .el-carousel__item:nth-child(2n + 1) {
-  background-color: #FFF8DC;
+  background-color: #fff;
 }
 </style>
