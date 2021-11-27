@@ -26,7 +26,7 @@ export default {
         sources: [
           {
             type: "video/mp4", // 类型
-            // src: "https://ci.scubot.live:12121/video?source=cookies", // url地址
+            // src: "https://ci.scubot.com:12121/video?source=cookies", // url地址
             src: "https://player.bilibili.com/player.html?aid=90992146&cid=155380603&page=2&danmaku=0&high_quality=1",
           },
         ],
