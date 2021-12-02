@@ -45,13 +45,13 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	}
 	var reqJson map[string]interface{}
     if err := json.Unmarshal([]byte(request.Body), &reqJson); err != nil {
-		return Resp(403, "{\"detail\": \"请求体错误\"")
+		return Resp(403, "{\"detail\": \"请求体错误\"}")
     }
 	content, _ := json.Marshal(reqJson["content"])
 	uid := strconv.Itoa(int(reqJson["uid"].(float64)))
 	// token check ...
 	if reqJson["accessToken"].(string) != os.Getenv("ACCESS_TOKEN") {
-		return Resp(403, "{\"detail\": \"access token错误\"")
+		return Resp(403, "{\"detail\": \"access token错误\"}")
 	}
 	// check exists
 	triggerTime := reqJson["content"].(map[string]interface{})["triggerTime"].(string)
