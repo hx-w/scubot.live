@@ -248,7 +248,6 @@ export default {
             delete this.preview.area;
             this.preview.cookies = cookies;
             this.preview.location = this.cacheLocation;
-            this.preview.accessToken = this.accessToken;
             this.loading_check = false;
           })
           .catch((error) => {
@@ -271,7 +270,7 @@ export default {
       this.loading_submit = true;
       const postData = {
         content: JSON.parse(JSON.stringify(this.preview)),
-        token: this.accessToken,
+        accessToken: this.accessToken,
         uid: this.preview.uid,
       };
       axios
