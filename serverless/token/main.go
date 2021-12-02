@@ -18,7 +18,7 @@ func Resp(StatusCode int, Body string) (*events.APIGatewayProxyResponse, error) 
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
 	if request.HTTPMethod != "POST" {
-		return Resp(403, "{\"detail\": \"未规定的请求方法\"")
+		return Resp(403, "{\"detail\": \"未规定的请求方法\"}")
 	} else {
 		token := os.Getenv("ACCESS_TOKEN")
 		return Resp(200, "{\"access_token\": \"" + token + "\"}")
