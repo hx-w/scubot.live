@@ -50,7 +50,9 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	content, _ := json.Marshal(reqJson["content"])
 	uid := strconv.Itoa(int(reqJson["uid"].(float64)))
 	// token check ...
-
+	if reqJson["accessToken"].(string) != os.Getenv("ACCESS_TOKEN") {
+		return Resp(403, "{\"detail\": \"access token错误\"")
+	}
 	// check exists
 	triggerTime := reqJson["content"].(map[string]interface{})["triggerTime"].(string)
 	var message string

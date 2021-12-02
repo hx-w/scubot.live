@@ -248,6 +248,7 @@ export default {
             delete this.preview.area;
             this.preview.cookies = cookies;
             this.preview.location = this.cacheLocation;
+            this.preview.accessToken = this.accessToken;
             this.loading_check = false;
           })
           .catch((error) => {

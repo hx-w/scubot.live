@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -15,11 +17,12 @@ func Resp(StatusCode int, Body string) (*events.APIGatewayProxyResponse, error) 
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	return Resp(200, "{\"message\": \"" + request.HTTPMethod + "\"}")
-	// var reqJson map[string]interface{}
-    // if err := json.Unmarshal([]byte(request.Body), &reqJson); err != nil {
-	// 	return Resp(403, "{\"detail\": \"请求体错误\"")
-    // }
+	if request.HTTPMethod != "POST" {
+		return Resp(403, "{\"detail\": \"未规定的请求方法\"")
+	} else {
+		token := os.Getenv("ACCESS_TOKEN")
+		return Resp(200, "{\"access_token\": \"" + token + "\"")
+	}
 }
 
 func main() {
