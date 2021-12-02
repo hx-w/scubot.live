@@ -82,7 +82,7 @@ F12，切换至Network选项卡，刷新页面
           <el-form-item label="接受消息的QQ">
             <el-row>
               <el-col :span="1">
-                <el-avatar :size="36" src="https://empty">
+                <el-avatar :size="36" src="https://q1.qlogo.cn/g?b=qq&nk=1&s=640">
                   <img :src="avatar_url" />
                 </el-avatar>
               </el-col>
@@ -100,7 +100,7 @@ F12，切换至Network选项卡，刷新页面
             <el-input
               v-model="accessToken"
               show-password
-              placeholder="联系开发者获取"
+              placeholder="使用 [POST] 方法请求 https://scubot.com/.netlify/functions/token 获取，表单数据置空即可"
             ></el-input>
           </el-form-item>
           <div class="scumap" align="center">

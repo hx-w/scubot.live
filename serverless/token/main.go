@@ -21,7 +21,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		return Resp(403, "{\"detail\": \"未规定的请求方法\"")
 	} else {
 		token := os.Getenv("ACCESS_TOKEN")
-		return Resp(200, "{\"access_token\": \"" + token + "\"")
+		return Resp(200, "{\"access_token\": \"" + token + "\"}")
 	}
 }
 
