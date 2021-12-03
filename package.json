@@ -10,14 +10,14 @@
   "dependencies": {
     "axios": "^0.22.0",
     "core-js": "^3",
-    "element-ui": "^2.15.6",
     "glob-parent": "5.1.2",
     "set-value": "4.0.1",
     "vue": "^2.6.11",
-    "vue-json-viewer": "^2.2.19",
     "vue-router": "^3.5.2"
   },
   "devDependencies": {
+    "vue-json-viewer": "^2.2.19",
+    "element-ui": "^2.15.6",
     "@amap/amap-vue": "^2.0.13",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
@@ -28,6 +28,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "redis": "^3.1.2",
     "vue-jsonp": "^2.0.0",
+    "vue-particles": "^1.0.9",
     "vue-template-compiler": "^2.6.11",
     "vue-video-player": "^5.0.2"
   },
