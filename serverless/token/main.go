@@ -17,6 +17,14 @@ func Resp(StatusCode int, Body string) (*events.APIGatewayProxyResponse, error) 
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
+	if input_token, ok := request.QueryStringParameters["simple_verify"]; ok {
+		simple_token := os.Getenv("SIMPLE_TOKEN")
+		if input_token == simple_token {
+			return Resp(200, "{\"message\": \"验证成功\"}")
+		} else {
+			return Resp(403, "{\"detail\": \"验证失败\"}")
+		}
+	}
 	if request.HTTPMethod != "POST" {
 		return Resp(403, "{\"detail\": \"未规定的请求方法\"}")
 	} else {
