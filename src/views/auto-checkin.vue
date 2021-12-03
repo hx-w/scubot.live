@@ -38,7 +38,7 @@
         align-items: center;
       "
     >
-      <el-carousel :interval="4000" height="90px" style="width: 600px">
+      <el-carousel :interval="4000" height="80px" style="width: 600px">
         <el-carousel-item v-for="item in display_list" :key="item">
           <h2 class="medium">{{ item }}</h2>
         </el-carousel-item>
@@ -148,6 +148,7 @@ F12，切换至Network选项卡，刷新页面
               @click="onPreview"
               style="width: 100px"
               :loading="loading_check"
+              icon="el-icon-circle-check"
               >验证</el-button
             >
             <el-button
@@ -155,6 +156,7 @@ F12，切换至Network选项卡，刷新页面
               @click="onSubmit"
               style="width: 100px; margin-left: 20px"
               :loading="loading_submit"
+              icon="el-icon-upload2"
             >
               提交
             </el-button>
@@ -164,6 +166,7 @@ F12，切换至Network选项卡，刷新页面
               type="success"
               @click="onLog"
               style="width: 100px; margin-left: 20px"
+              icon="el-icon-document"
             >
               日志
             </el-button>
@@ -174,6 +177,7 @@ F12，切换至Network选项卡，刷新页面
               type="danger"
               @click="onDelete"
               style="width: 100px; margin-left: 20px"
+              icon="el-icon-delete"
             >
               删除
             </el-button>
