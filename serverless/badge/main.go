@@ -47,6 +47,14 @@ func WorkFlowNum() int {
 	return len(result)
 }
 
+func LogNum() int {
+	result, err := rdb.Keys("checkinLog-*").Result()
+	if err != nil {
+		panic(err)
+	}
+	return len(result)
+}
+
 func DayDiff() int {
 	startTime, _ := time.Parse("2006-01-02", os.Getenv("START_DAY"))
 	nowTime := time.Now()
@@ -61,7 +69,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		if typeType == "0" {
 			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"有效工作流\", \"message\": \"%d项\", \"color\": \"ad453f\"}", WorkFlowNum()))
 		} else if typeType == "1" {
-			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"全校打卡日均\", \"message\": \"%d人\", \"color\": \"2f90b9\"}", 0))
+			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"缓存打卡日志\", \"message\": \"%d条\", \"color\": \"2f90b9\"}", LogNum()))
 		} else if typeType == "2" {
 			return Resp(200, fmt.Sprintf("{\"schemaVersion\": 1, \"label\": \"运行时间\", \"message\": \"%d天\", \"color\": \"3c9566\"}", DayDiff()))
 		}

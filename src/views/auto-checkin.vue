@@ -82,7 +82,7 @@ F12，切换至Network选项卡，刷新页面
           <el-form-item label="接受消息的QQ">
             <el-row>
               <el-col :span="1">
-                <el-avatar :size="36" src="https://q1.qlogo.cn/g?b=qq&nk=1&s=640">
+                <el-avatar :size="36" src="https://empty.com">
                   <img :src="avatar_url" />
                 </el-avatar>
               </el-col>
