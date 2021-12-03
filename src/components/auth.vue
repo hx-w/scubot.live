@@ -15,6 +15,7 @@
       placeholder="输入一些应该输入的"
       style="width: 40%; margin-top: 300px"
       size="large"
+      v-model="token"
       @pressEnter="onSubmit"
     />
   </a-row>
