@@ -2,7 +2,9 @@
   <el-container direction="vertical">
     <el-row justify="center" type="flex">
       <el-header>
-        <h1 align="center" style="font-size:24px">SCU健康每日报自动打卡工作流</h1>
+        <h1 align="center" style="font-size: 24px">
+          SCU健康每日报自动打卡工作流
+        </h1>
         <div align="center">
           <img
             align="center"
@@ -26,13 +28,22 @@
       </el-header>
     </el-row>
     <br />
-      <div align="center" style="display:flex; display:-webkit-flex; text-align:center; justify-content:center; align-items:center;">
-        <el-carousel :interval="4000" height="90px" style="width:600px">
-          <el-carousel-item v-for="item in display_list" :key="item">
-            <h2 class="medium">{{ item }}</h2>
-          </el-carousel-item>
-        </el-carousel>
-      </div>
+    <div
+      align="center"
+      style="
+        display: flex;
+        display: -webkit-flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <el-carousel :interval="4000" height="90px" style="width: 600px">
+        <el-carousel-item v-for="item in display_list" :key="item">
+          <h2 class="medium">{{ item }}</h2>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
     <el-row justify="center" type="flex">
       <el-col :span="17">
         <el-form ref="scu" :model="scu" label-width="115px">
@@ -144,8 +155,25 @@ F12，切换至Network选项卡，刷新页面
               @click="onSubmit"
               style="width: 100px; margin-left: 20px"
               :loading="loading_submit"
-              >提交</el-button
             >
+              提交
+            </el-button>
+            <el-button
+              v-if="!newClient"
+              type="success"
+              @click="onLog"
+              style="width: 100px; margin-left: 20px"
+            >
+              日志
+            </el-button>
+            <el-button
+              v-if="!newClient"
+              type="danger"
+              @click="onDelete"
+              style="width: 100px; margin-left: 20px"
+            >
+              删除
+            </el-button>
           </el-form-item>
           <el-form-item>
             <json-viewer
@@ -201,8 +229,9 @@ export default {
         "自定义打卡定位地点，支持范围选择",
         "保存原有个人信息模板，只针对定位信息做更改",
         "QQ机器人准确反馈打卡状态",
-        "在线查询打卡日志(TODO)"
-      ]
+        "在线查询打卡日志(TODO)",
+      ],
+      newClient: true,
     };
   },
   created() {
@@ -242,7 +271,7 @@ export default {
           })
           .then((resp) => {
             this.scu.uid = resp.data["uid"];
-            console.log(resp.data)
+            this.newClient = !resp.data["exist"];
             this.$message.success("cookies验证成功");
 
             this.preview = JSON.parse(JSON.stringify(this.scu));
@@ -296,6 +325,12 @@ export default {
           }
           this.loading_submit = false;
         });
+    },
+    onLog() {
+      this.$message.error("开发中...");
+    },
+    onDelete() {
+      this.$message.error("开发中...");
     },
     onMapSelect() {
       this.dialogMapVisible = true;
@@ -378,7 +413,7 @@ export default {
   height: 100%;
 }
 .el-carousel__item h2 {
-  color: #2A3344;
+  color: #2a3344;
   font-size: 20px;
   opacity: 0.75;
   line-height: 100px;
