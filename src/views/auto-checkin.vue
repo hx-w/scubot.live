@@ -158,22 +158,26 @@ F12，切换至Network选项卡，刷新页面
             >
               提交
             </el-button>
+            <transition name="el-zoom-in-center">
             <el-button
-              v-if="!newClient"
+              v-show="!newClient"
               type="success"
               @click="onLog"
               style="width: 100px; margin-left: 20px"
             >
               日志
             </el-button>
+            </transition>
+            <transition name="el-zoom-in-center">
             <el-button
-              v-if="!newClient"
+              v-show="!newClient"
               type="danger"
               @click="onDelete"
               style="width: 100px; margin-left: 20px"
             >
               删除
             </el-button>
+            </transition>
           </el-form-item>
           <el-form-item>
             <json-viewer
