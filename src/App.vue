@@ -5,10 +5,8 @@
       color="#dedede"
       style="position: fixed"
       :linesDistance="150"
-      :hoverEffect="true"
-      hoverMode="grab"
-      :clickEffect="true"
-      clickMode="push"
+      :hoverEffect="false"
+      :clickEffect="false"
       :particleOpacity="0.7"
       :particlesNumber="80"
     >

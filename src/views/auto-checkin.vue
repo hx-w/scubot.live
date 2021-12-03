@@ -242,6 +242,7 @@ export default {
           })
           .then((resp) => {
             this.scu.uid = resp.data["uid"];
+            console.log(resp.data)
             this.$message.success("cookies验证成功");
 
             this.preview = JSON.parse(JSON.stringify(this.scu));
