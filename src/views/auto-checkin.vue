@@ -161,26 +161,35 @@ F12，切换至Network选项卡，刷新页面
               提交
             </el-button>
             <transition name="el-zoom-in-center">
-            <el-button
-              v-show="!newClient"
-              type="success"
-              @click="onLog"
-              style="width: 100px; margin-left: 20px"
-              icon="el-icon-document"
-            >
-              日志
-            </el-button>
+              <el-button
+                v-show="!newClient"
+                type="success"
+                @click="onLog"
+                style="width: 100px; margin-left: 20px"
+                icon="el-icon-document"
+              >
+                日志
+              </el-button>
             </transition>
             <transition name="el-zoom-in-center">
-            <el-button
-              v-show="!newClient"
-              type="danger"
-              @click="onDelete"
-              style="width: 100px; margin-left: 20px"
-              icon="el-icon-delete"
-            >
-              删除
-            </el-button>
+              <el-popconfirm
+                confirm-button-text="确认"
+                cancel-button-text="不用了"
+                icon="el-icon-info"
+                icon-color="yellow"
+                title="你确认停止自动打卡吗？"
+              >
+                <el-button
+                  v-show="!newClient"
+                  type="danger"
+                  @click="onDelete"
+                  style="width: 100px; margin-left: 20px"
+                  icon="el-icon-delete"
+                  slot="reference"
+                >
+                  删除
+                </el-button>
+              </el-popconfirm>
             </transition>
           </el-form-item>
           <el-form-item>
