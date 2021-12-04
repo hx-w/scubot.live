@@ -56,6 +56,6 @@ export default {
 <style>
 .wallpaper {
   background-image: url("../assets/img/wallpaper.png");
-  background-size: auto;
+  background-size: cover;
 }
 </style>
