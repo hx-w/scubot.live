@@ -4,11 +4,11 @@
       class="wallpaper"
       color="#dedede"
       style="position: absolute; width: 100%; height: 100%"
-      :linesDistance="100"
+      :linesDistance="150"
       :hoverEffect="false"
       :clickEffect="false"
       :particleOpacity="0.7"
-      :particlesNumber="80"
+      :particlesNumber="50"
     >
     </vue-particles>
     <a-input-password

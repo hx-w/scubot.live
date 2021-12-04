@@ -174,10 +174,9 @@ F12，切换至Network选项卡，刷新页面
             <transition name="el-zoom-in-center">
               <el-popconfirm
                 confirm-button-text="确认"
-                cancel-button-text="不用了"
-                icon="el-icon-info"
-                icon-color="yellow"
+                cancel-button-text="取消"
                 title="你确认停止自动打卡吗？"
+                @confirm="onDelete"
               >
                 <el-button
                   v-show="!newClient"
@@ -185,7 +184,6 @@ F12，切换至Network选项卡，刷新页面
                   @click="onDelete"
                   style="width: 100px; margin-left: 20px"
                   icon="el-icon-delete"
-                  slot="reference"
                 >
                   删除
                 </el-button>

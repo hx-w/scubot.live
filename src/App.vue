@@ -4,11 +4,11 @@
       <vue-particles
         color="#dedede"
         style="position: fixed; width:100%; height:100%"
-        :linesDistance="100"
+        :linesDistance="150"
         :hoverEffect="false"
         :clickEffect="false"
         :particleOpacity="0.7"
-        :particlesNumber="80"
+        :particlesNumber="50"
       >
       </vue-particles>
       <router-view> </router-view>
