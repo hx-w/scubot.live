@@ -172,22 +172,22 @@ F12，切换至Network选项卡，刷新页面
               </el-button>
             </transition>
             <transition name="el-zoom-in-center">
-              <el-popconfirm
-                confirm-button-text="确认"
-                cancel-button-text="取消"
-                title="你确认停止自动打卡吗？"
+              <a-popconfirm
+                title="确定要停止自动打卡吗？"
+                ok-text="确定"
+                cancel-text="返回"
                 @confirm="onDelete"
               >
                 <el-button
                   v-show="!newClient"
                   type="danger"
-                  @click="onDelete"
                   style="width: 100px; margin-left: 20px"
                   icon="el-icon-delete"
+                  :loading="loading_delete"
                 >
                   删除
                 </el-button>
-              </el-popconfirm>
+              </a-popconfirm>
             </transition>
           </el-form-item>
           <el-form-item>
@@ -239,6 +239,7 @@ export default {
       avatar_url: "https://q1.qlogo.cn/g?b=qq&nk=1&s=640",
       loading_check: false,
       loading_submit: false,
+      loading_delete: false,
       display_list: [
         "成都服务器集群，不固定出口IP",
         "自定义打卡定位地点，支持范围选择",
@@ -345,7 +346,32 @@ export default {
       this.$message.error("开发中...");
     },
     onDelete() {
-      this.$message.error("开发中...");
+      this.loading_delete = true;
+      const postData = {
+        accessToken: this.accessToken,
+        uid: this.preview.uid,
+      };
+      axios
+        .post("https://www.scubot.com/.netlify/functions/delete", postData)
+        .then((res) => {
+          if (res.status == 200) {
+            this.$message.success(res.data["message"]);
+          } else if (res.status == 403) {
+            this.$message.error("错误：" + res.data["detail"]);
+          } else {
+            this.$message.error("出现了一些错误，请检查表单是否填写正确");
+          }
+          this.loading_delete = false;
+        })
+        .catch((res) => {
+          if (res.response != undefined && res.response.status == 403) {
+            sleep(500).then(() => {
+              this.$message.error("错误：" + res.response.data["detail"]);
+            });
+          }
+          this.loading_delete = false;
+          this.$message.error("出现了一些错误，请检查表单是否填写正确");
+        });
     },
     onMapSelect() {
       this.dialogMapVisible = true;
