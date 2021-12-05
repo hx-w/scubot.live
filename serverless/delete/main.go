@@ -52,8 +52,8 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	if reqJson["accessToken"].(string) != os.Getenv("ACCESS_TOKEN") {
 		return Resp(403, "{\"detail\": \"access token错误\"}")
 	}
-	_, err := rdb.Del(SCUBotKey(uid)).Result()
-	if err == redis.Nil {
+	err := rdb.Del(SCUBotKey(uid)).Err()
+	if err == nil {
 		return Resp(200, "{\"message\": \"删除成功\"}" )
 	} else {
 		return Resp(403, "{\"detail\": \"数据库操作错误\"}")
