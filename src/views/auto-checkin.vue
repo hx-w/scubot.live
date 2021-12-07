@@ -107,7 +107,7 @@ F12，切换至Network选项卡，刷新页面
               </el-col>
             </el-row>
           </el-form-item>
-          <el-form-item label="Access Token">
+          <el-form-item v-show="false" label="Access Token">
             <el-input
               v-model="accessToken"
               show-password
