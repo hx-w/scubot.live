@@ -209,8 +209,8 @@ F12，切换至Network选项卡，刷新页面
 
 <script>
 import axios from "axios";
-import scumap from "./scumap.vue";
-import BiliVideo from "./bili-video.vue";
+import scumap from "../components/scumap.vue";
+import BiliVideo from "../components/bili-video.vue";
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));

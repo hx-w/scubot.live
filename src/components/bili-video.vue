@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  name: 'bili-video',
   props: {
     ihtml: {
       type: String,

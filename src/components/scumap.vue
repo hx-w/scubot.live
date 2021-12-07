@@ -103,6 +103,7 @@
 import { loadAmap, loadPlugins } from "@amap/amap-vue";
 
 export default {
+  name: 'scumap',
   data() {
     return {
       mode: "search",
