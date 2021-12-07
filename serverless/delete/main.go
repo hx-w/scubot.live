@@ -49,9 +49,9 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
     }
 	uid := strconv.Itoa(int(reqJson["uid"].(float64)))
 	// token check ...
-	if reqJson["accessToken"].(string) != os.Getenv("ACCESS_TOKEN") {
-		return Resp(403, "{\"detail\": \"access token错误\"}")
-	}
+	// if reqJson["accessToken"].(string) != os.Getenv("ACCESS_TOKEN") {
+	// 	return Resp(403, "{\"detail\": \"access token错误\"}")
+	// }
 	err := rdb.Del(SCUBotKey(uid)).Err()
 	if err == nil {
 		return Resp(200, "{\"message\": \"删除成功\"}" )
