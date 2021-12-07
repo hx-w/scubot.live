@@ -140,6 +140,16 @@ F12，切换至Network选项卡，刷新页面
               />
               <!-- <bili-video ihtml="https://player.bilibili.com/player.html?aid=90992146&cid=155380603&page=1&danmaku=0&high_quality=1" /> -->
             </el-dialog>
+            <el-dialog
+              title="日志汇总"
+              :visible.sync="dialogLogVisible"
+              center
+              top="10px"
+              width="70%"
+            >
+              <Log :uid="this.preview.uid"/>
+            </el-dialog>
+          
           </div>
           <br />
           <el-form-item>
@@ -211,13 +221,14 @@ F12，切换至Network选项卡，刷新页面
 import axios from "axios";
 import scumap from "../components/scumap.vue";
 import BiliVideo from "../components/bili-video.vue";
+import Log from "../components/log.vue"
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
 export default {
-  components: { scumap, BiliVideo },
+  components: { scumap, BiliVideo, Log },
   data() {
     return {
       scu: {
@@ -232,6 +243,7 @@ export default {
       preview: "请点击'验证'",
       dialogMapVisible: false,
       dialogVideoVisible: false,
+      dialogLogVisible: false,
       cacheLocation: {
         lat: 30.630839301216,
         lng: 104.079966362848,
@@ -343,7 +355,7 @@ export default {
         });
     },
     onLog() {
-      this.$message.error("开发中...");
+      this.dialogLogVisible = true;
     },
     onDelete() {
       this.loading_delete = true;
