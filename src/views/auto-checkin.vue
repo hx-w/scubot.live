@@ -147,9 +147,8 @@ F12，切换至Network选项卡，刷新页面
               top="10px"
               width="70%"
             >
-              <Log :uid="this.preview.uid"/>
+              <Log :uid="this.preview.uid" />
             </el-dialog>
-          
           </div>
           <br />
           <el-form-item>
@@ -221,7 +220,7 @@ F12，切换至Network选项卡，刷新页面
 import axios from "axios";
 import scumap from "../components/scumap.vue";
 import BiliVideo from "../components/bili-video.vue";
-import Log from "../components/log.vue"
+import Log from "../components/log.vue";
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -270,6 +269,15 @@ export default {
       message:
         "如果你需要每日打卡消息回执，请主动添加QQ(机器人)：<strong><a href='https://wpa.qq.com/msgrd?v=3&uin=3583618673&site=scubot&from=scubot&menu=yes'>3583618673</a></strong>，验证消息填：<strong><span id='verifyCode' onclick='copy();'>7355608</span></strong>",
       duration: 0,
+    });
+    sleep(500).then(() => {
+      this.$notify.success({
+        title: "使用须知",
+        dangerouslyUseHTMLString: true,
+        message:
+          "在使用本项目提供的服务前，请确保知悉<strong><a target='_blank' href='/pdf/guideline.pdf'>项目导览</a></strong>中的内容",
+        duration: 0,
+      });
     });
   },
   methods: {
