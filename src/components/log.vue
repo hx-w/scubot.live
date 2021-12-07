@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a-empty :description="cuid"></a-empty>
+        <a-empty :description="cuid">在做了在做了...</a-empty>
     </div>
 </template>
 <script>
