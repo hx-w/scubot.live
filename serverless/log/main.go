@@ -47,6 +47,9 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		if err != nil {
 			return Resp(403, "{\"detail\": \"数据库操作错误\"}")
 		}
+		if len(result) == 0 {
+			return Resp(200, "{\"message\": \"[]\"}")
+		}
 		valRes, err := rdb.MGet(result...).Result()
 		if err != nil {
 			return Resp(403, "{\"detail\": \"数据库操作错误\"}")
@@ -55,7 +58,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 		if err != nil {
 			return Resp(403, "{\"detail\": \"数据库操作错误\"}")
 		}
-		return Resp(403, "{\"message\": \"" + string(resJson) + "\"}")
+		return Resp(200, "{\"message\": \"" + string(resJson) + "\"}")
 	}
 	return Resp(403, "{\"detail\": \"参数错误\"}")
 }
