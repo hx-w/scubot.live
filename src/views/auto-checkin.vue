@@ -271,7 +271,7 @@ export default {
       duration: 0,
     });
     sleep(500).then(() => {
-      this.$notify.success({
+      this.$notify.warning({
         title: "使用须知",
         dangerouslyUseHTMLString: true,
         message:
