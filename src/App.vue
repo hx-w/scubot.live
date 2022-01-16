@@ -27,7 +27,7 @@ export default {
   name: "App",
   data() {
     return {
-      access: false,
+      access: true,
     };
   },
   methods: {
