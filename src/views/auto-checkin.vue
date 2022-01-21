@@ -343,7 +343,10 @@ export default {
         .post("https://www.scubot.com/.netlify/functions/post", postData)
         .then((res) => {
           if (res.status == 200) {
-            this.$message.success(res.data["message"]);
+            this.$alert(res.data["message"], {
+              confirmButtonText: '确定'
+            });
+            // this.$message.success(res.data["message"]);
           } else if (res.status == 403) {
             this.$message.error("错误：" + res.data["detail"]);
           } else {
