@@ -316,6 +316,22 @@ export default {
             this.preview.cookies = cookies;
             this.preview.location = this.cacheLocation;
             this.loading_check = false;
+
+            axios
+              .get("https://www.scubot.com/.netlify/functions/log", {
+                params: {
+                  uid: this.preview.uid,
+                },
+              })
+              .then((resp) => {
+                  this.logs = resp.data["message"];
+                  this.$message.success("日志获取成功");
+                  console.log(this.logs);
+              })
+              .catch((err) => {
+                  this.$message.error("日志获取失败");
+                  console.log(err);
+              })
           })
           .catch((error) => {
             console.log(error);
@@ -366,21 +382,6 @@ export default {
         });
     },
     onLog() {
-      axios
-        .get("https://www.scubot.com/.netlify/functions/log", {
-          params: {
-            uid: this.preview.uid,
-          },
-        })
-        .then((resp) => {
-            this.logs = resp.data['message'];
-            this.$message.success('日志获取成功');
-            console.log(this.logs);
-        })
-        .catch((err) => {
-            this.$message.error("日志获取失败");
-            console.log(err);
-        })
       this.dialogLogVisible = true;
     },
     onDelete() {
