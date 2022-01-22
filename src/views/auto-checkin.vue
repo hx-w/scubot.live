@@ -147,7 +147,7 @@ F12，切换至Network选项卡，刷新页面
               top="10px"
               width="70%"
             >
-              <Log :uid="this.preview.uid" />
+              <Log :uid="this.preview.uid" :logs="this.logs" />
             </el-dialog>
           </div>
           <br />
@@ -259,6 +259,7 @@ export default {
         "在线查询打卡日志(TODO)",
       ],
       newClient: true,
+      logs: [],
     };
   },
   created() {
@@ -346,7 +347,6 @@ export default {
             this.$alert(res.data["message"], {
               confirmButtonText: '确定'
             });
-            // this.$message.success(res.data["message"]);
           } else if (res.status == 403) {
             this.$message.error("错误：" + res.data["detail"]);
           } else {
@@ -366,6 +366,21 @@ export default {
         });
     },
     onLog() {
+      axios
+        .get("https://www.scubot.com/.netlify/functions/log", {
+          params: {
+            uid: this.preview.uid,
+          },
+        })
+        .then((resp) => {
+            this.logs = resp.data['message'];
+            this.$message.success('日志获取成功');
+            console.log(this.logs);
+        })
+        .catch((err) => {
+            this.$message.error("日志获取失败");
+            console.log(err);
+        })
       this.dialogLogVisible = true;
     },
     onDelete() {
