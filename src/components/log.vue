@@ -17,11 +17,7 @@ export default {
       this.cuid = newVal;
     },
     logs(newVal) {
-      this.logs = []
-      newVal.forEach(function(item, index, array) {
-        this.logs.push(JSON.parse(item))
-      })
-      console.log(this.logs)
+      this.logs = newVal;
     }
   },
   methods: {},

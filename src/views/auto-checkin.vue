@@ -326,6 +326,9 @@ export default {
               .then((resp) => {
                   this.logs = resp.data["message"];
                   this.$message.success("日志获取成功");
+                  for (let i = 0; i < this.logs.length; ++i) {
+                    this.logs[i] = JSON.parse(this.logs[i]);
+                  }
                   console.log(this.logs);
               })
               .catch((err) => {
