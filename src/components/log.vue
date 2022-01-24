@@ -31,7 +31,6 @@ export default {
   props: ["uid", "logs"],
   data() {
     return {
-      cuid: this.uid,
       columns: [
         {
           dataIndex: "date",
