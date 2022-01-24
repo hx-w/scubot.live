@@ -221,6 +221,7 @@ import axios from "axios";
 import scumap from "../components/scumap.vue";
 import BiliVideo from "../components/bili-video.vue";
 import Log from "../components/log.vue";
+import func from 'vue-editor-bridge';
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -329,10 +330,15 @@ export default {
                   for (let i = 0; i < this.logs.length; ++i) {
                     this.logs[i] = JSON.parse(this.logs[i]);
                   }
-                  function sort_(f, b) {
-                    return f.date > b.date;
-                  }
-                  this.logs = this.logs.sort(sort_);
+                  this.logs.sort(function(a, b) {
+                    if (a.date > b.date) {
+                      return -1;
+                    }
+                    if (a.date < b.date) {
+                      return 1;
+                    }
+                    return 0;
+                  })
                   console.log(this.logs);
               })
               .catch((err) => {
