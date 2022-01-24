@@ -61,7 +61,8 @@ export default {
           scopedSlots: { customRender: "result" },
         },
       ],
-      clogs: []
+      clogs: this.logs,
+      cuid: this.uid,
     };
   },
   watch: {
