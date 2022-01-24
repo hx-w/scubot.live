@@ -221,7 +221,6 @@ import axios from "axios";
 import scumap from "../components/scumap.vue";
 import BiliVideo from "../components/bili-video.vue";
 import Log from "../components/log.vue";
-import func from 'vue-editor-bridge';
 
 function sleep(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
