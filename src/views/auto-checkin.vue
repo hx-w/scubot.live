@@ -280,7 +280,10 @@ export default {
       this.scu.triggerTime = this.preview.triggerTime
       this.scu.qqid = this.preview.qqid
       this.scu.uid = this.preview.uid
-      this.getAreaFromLoc(this.preview.location.lat, this.preview.location.lng)
+      this.getAreaFromLoc(this.preview.location.lat, this.preview.location.lng, false)
+      this.$refs.scumap.position = [this.preview.location.lng, this.preview.location.lat]
+      this.$refs.scumap.center = [this.preview.location.lng, this.preview.location.lat]
+      this.newClient = false
     }
 
     sleep(500).then(() => {
@@ -447,7 +450,7 @@ export default {
       // get new area info
       this.getAreaFromLoc(this.cacheLocation["lat"], this.cacheLocation["lng"])
     },
-    getAreaFromLoc(lat, lng) {
+    getAreaFromLoc(lat, lng, notice=true) {
       this.$jsonp("https://api.map.baidu.com/reverse_geocoding/v3/", {
         output: "json",
         coordtype: "wgs84ll",
@@ -462,7 +465,9 @@ export default {
             console.log(response.result);
             var addr = response.result.addressComponent;
             this.scu.area = `${addr.province} ${addr.city} ${addr.district}`;
-            this.$message.success("地理位置获取：" + this.scu.area);
+            if (notice) {
+              this.$message.success("地理位置获取：" + this.scu.area);
+            }
           }
         })
         .catch((error) => {
