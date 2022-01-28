@@ -325,7 +325,7 @@ export default {
             this.$message.success("cookies验证成功");
 
             this.preview = JSON.parse(JSON.stringify(this.scu));
-            delete this.preview.area;
+            // delete this.preview.area;
             this.preview.cookies = cookies;
             this.preview.location = this.cacheLocation;
             this.loading_check = false;
