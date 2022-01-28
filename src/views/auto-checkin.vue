@@ -282,7 +282,9 @@ export default {
       this.scu.triggerTime = this.preview.triggerTime
       this.scu.qqid = this.preview.qqid
       this.scu.uid = this.preview.uid
+      this.qqChanged(this.scu.qqid)
       this.getAreaFromLoc(this.preview.location.lat, this.preview.location.lng, false)
+      this.getLogs(false)
       this.iposition = [this.preview.location.lng, this.preview.location.lat]
       this.icenter = [this.preview.location.lng, this.preview.location.lat]
       this.newClient = false
@@ -335,33 +337,7 @@ export default {
             this.loading_check = false;
             // set cookies
             this.$cookies.set('checkin-cookies', this.preview)
-            axios
-              .get("https://www.scubot.com/.netlify/functions/log", {
-                params: {
-                  uid: this.preview.uid,
-                },
-              })
-              .then((resp) => {
-                  this.logs = resp.data["message"];
-                  this.$message.success("日志获取成功");
-                  for (let i = 0; i < this.logs.length; ++i) {
-                    this.logs[i] = JSON.parse(this.logs[i]);
-                  }
-                  this.logs.sort(function(a, b) {
-                    if (a.date > b.date) {
-                      return -1;
-                    }
-                    if (a.date < b.date) {
-                      return 1;
-                    }
-                    return 0;
-                  })
-                  console.log(this.logs);
-              })
-              .catch((err) => {
-                  this.$message.error("日志获取失败");
-                  console.log(err);
-              })
+            this.getLogs()
           })
           .catch((error) => {
             console.log(error);
@@ -451,6 +427,38 @@ export default {
       this.cacheLocation["lng"] = this.$refs.scumap.position[0];
       // get new area info
       this.getAreaFromLoc(this.cacheLocation["lat"], this.cacheLocation["lng"])
+    },
+    getLogs(notice=true) {
+      axios
+        .get("https://www.scubot.com/.netlify/functions/log", {
+          params: {
+            uid: this.preview.uid,
+          },
+        })
+        .then((resp) => {
+            this.logs = resp.data["message"];
+            if (notice) {
+              this.$message.success("日志获取成功");
+            }
+            for (let i = 0; i < this.logs.length; ++i) {
+              this.logs[i] = JSON.parse(this.logs[i]);
+            }
+            this.logs.sort(function(a, b) {
+              if (a.date > b.date) {
+                return -1;
+              }
+              if (a.date < b.date) {
+                return 1;
+              }
+              return 0;
+            })
+            console.log(this.logs);
+        })
+        .catch((err) => {
+            this.$message.error("日志获取失败");
+            console.log(err);
+        })
+
     },
     getAreaFromLoc(lat, lng, notice=true) {
       this.$jsonp("https://api.map.baidu.com/reverse_geocoding/v3/", {
