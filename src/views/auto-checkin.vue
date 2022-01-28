@@ -274,14 +274,13 @@ export default {
     // test
     var checkin_cookies = this.$cookies.get('checkin-cookies')
     if (checkin_cookies != null) {
-      // this.preview = checkin_cookies
-      // this.scu.cookies = `eai-sess=${this.preview.cookies['eai-sess']}; UUkey=${this.preview.cookies['UUkey']};`
-      // this.scu.userAgent = this.preview.userAgent
-      // this.scu.triggerTime = this.preview.triggerTime
-      // this.scu.qqid = this.preview.qqid
-      // this.scu.uid = this.preview.uid
-      // this.cacheLocation.lat = this.preview.location.lat
-      // this.cacheLocation.lng = this.preview.location.lng
+      this.preview = checkin_cookies
+      this.scu.cookies = `eai-sess=${this.preview.cookies['eai-sess']}; UUkey=${this.preview.cookies['UUkey']};`
+      this.scu.userAgent = this.preview.userAgent
+      this.scu.triggerTime = this.preview.triggerTime
+      this.scu.qqid = this.preview.qqid
+      this.scu.uid = this.preview.uid
+      this.getAreaFromLoc(this.preview.location.lat, this.preview.location.lng)
     }
 
     sleep(500).then(() => {
@@ -325,7 +324,7 @@ export default {
             this.$message.success("cookies验证成功");
 
             this.preview = JSON.parse(JSON.stringify(this.scu));
-            // delete this.preview.area;
+            delete this.preview.area;
             this.preview.cookies = cookies;
             this.preview.location = this.cacheLocation;
             this.loading_check = false;
@@ -446,11 +445,14 @@ export default {
       this.cacheLocation["lat"] = this.$refs.scumap.position[1];
       this.cacheLocation["lng"] = this.$refs.scumap.position[0];
       // get new area info
+      this.getAreaFromLoc(this.cacheLocation["lat"], this.cacheLocation["lng"])
+    },
+    getAreaFromLoc(lat, lng) {
       this.$jsonp("https://api.map.baidu.com/reverse_geocoding/v3/", {
         output: "json",
         coordtype: "wgs84ll",
         ak: "0hYGiH3Ob5ZhV0eWzrGVXCD3bEdBCi6L",
-        location: `${this.cacheLocation["lat"]},${this.cacheLocation["lng"]}`,
+        location: `${lat},${lng}`,
       })
         .then((response) => {
           if (response.status != 0) {
