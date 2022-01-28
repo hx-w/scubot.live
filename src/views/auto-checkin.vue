@@ -271,6 +271,9 @@ export default {
         "如果你需要每日打卡消息回执，请主动添加QQ(机器人)：<strong><a href='https://wpa.qq.com/msgrd?v=3&uin=3583618673&site=scubot&from=scubot&menu=yes'>3583618673</a></strong>，验证消息填：<strong><span id='verifyCode' onclick='copy();'>7355608</span></strong>",
       duration: 0,
     });
+    // test
+    console.log(this.$cookies.keys())
+
     sleep(500).then(() => {
       this.$notify.warning({
         title: "使用须知",
@@ -307,6 +310,9 @@ export default {
             },
           })
           .then((resp) => {
+            // set user cookies
+            this.$cookies.set('wfw-cookies', cookies)
+
             this.scu.uid = resp.data["uid"];
             this.newClient = !resp.data["exist"];
             this.$message.success("cookies验证成功");

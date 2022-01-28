@@ -26,6 +26,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "redis": "^3.1.2",
+    "vue-cookies": "^1.7.4",
     "vue-json-viewer": "^2.2.19",
     "vue-jsonp": "^2.0.0",
     "vue-particles": "^1.0.9",
