@@ -58,7 +58,7 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	var message string
 	_, err := rdb.Get(SCUBotKey(uid)).Result()
 	if err == redis.Nil {
-		message = "操作成功！预计每日[" + triggerTime + "]进行打卡\n更换打卡地点时需要手动打卡一次，以更新个人打卡模板"
+		message = "操作成功！预计每日[" + triggerTime + "]进行打卡"
 	} else if err != nil {
 		return Resp(403, "{\"detail\": \"数据库操作错误\"}")
 	} else {

@@ -272,7 +272,10 @@ export default {
       duration: 0,
     });
     // test
-    console.log(this.$cookies.get('wfw-cookies'))
+    var checkin_cookies = this.$cookies.get('checkin-cookies')
+    if (checkin_cookies != null) {
+      console.log(checkin_cookies)
+    }
 
     sleep(500).then(() => {
       this.$notify.warning({
@@ -310,9 +313,6 @@ export default {
             },
           })
           .then((resp) => {
-            // set user cookies
-            this.$cookies.set('wfw-cookies', cookies)
-
             this.scu.uid = resp.data["uid"];
             this.newClient = !resp.data["exist"];
             this.$message.success("cookies验证成功");
@@ -322,7 +322,8 @@ export default {
             this.preview.cookies = cookies;
             this.preview.location = this.cacheLocation;
             this.loading_check = false;
-
+            // set cookies
+            this.$cookies.set('checkin-cookies', this.preview)
             axios
               .get("https://www.scubot.com/.netlify/functions/log", {
                 params: {
