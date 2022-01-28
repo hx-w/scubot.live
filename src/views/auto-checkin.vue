@@ -121,7 +121,7 @@ F12，切换至Network选项卡，刷新页面
               center
               top="15px"
             >
-              <scumap ref="scumap" :center="icenter" :position="iposition" />
+              <scumap ref="scumap" :icenter="icenter" :iposition="iposition" />
               <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogMapVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirmLoc">确 定</el-button>
@@ -426,8 +426,8 @@ export default {
       this.dialogMapVisible = false;
       this.cacheLocation["lat"] = this.$refs.scumap.position[1];
       this.cacheLocation["lng"] = this.$refs.scumap.position[0];
-      this.iposition = [this.cacheLocation.lng, this.cacheLocation.location.lat]
-      this.icenter = [this.cacheLocation.lng, this.cacheLocation.location.lat]
+      this.iposition = [this.cacheLocation["lng"], this.cacheLocation["lat"]]
+      this.icenter = [this.cacheLocation["lng"], this.cacheLocation["lat"]]
       // get new area info
       this.getAreaFromLoc(this.cacheLocation["lat"], this.cacheLocation["lng"])
     },
