@@ -426,6 +426,8 @@ export default {
       this.dialogMapVisible = false;
       this.cacheLocation["lat"] = this.$refs.scumap.position[1];
       this.cacheLocation["lng"] = this.$refs.scumap.position[0];
+      this.iposition = [this.cacheLocation.lng, this.cacheLocation.location.lat]
+      this.icenter = [this.cacheLocation.lng, this.cacheLocation.location.lat]
       // get new area info
       this.getAreaFromLoc(this.cacheLocation["lat"], this.cacheLocation["lng"])
     },
