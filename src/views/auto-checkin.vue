@@ -274,14 +274,14 @@ export default {
     // test
     var checkin_cookies = this.$cookies.get('checkin-cookies')
     if (checkin_cookies != null) {
-      this.preview = checkin_cookies
-      this.scu.cookies = `eai-sess=${this.preview.cookies['eai-sess']}; UUkey=${this.preview.cookies['UUkey']};`
-      this.scu.userAgent = this.preview.userAgent
-      this.scu.triggerTime = this.preview.triggerTime
-      this.scu.qqid = this.preview.qqid
-      this.scu.uid = this.preview.uid
-      this.cacheLocation.lat = this.preview.location.lat
-      this.cacheLocation.lng = this.preview.location.lng
+      // this.preview = checkin_cookies
+      // this.scu.cookies = `eai-sess=${this.preview.cookies['eai-sess']}; UUkey=${this.preview.cookies['UUkey']};`
+      // this.scu.userAgent = this.preview.userAgent
+      // this.scu.triggerTime = this.preview.triggerTime
+      // this.scu.qqid = this.preview.qqid
+      // this.scu.uid = this.preview.uid
+      // this.cacheLocation.lat = this.preview.location.lat
+      // this.cacheLocation.lng = this.preview.location.lng
     }
 
     sleep(500).then(() => {
