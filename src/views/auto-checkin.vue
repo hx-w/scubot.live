@@ -272,7 +272,7 @@ export default {
       duration: 0,
     });
     // test
-    console.log(this.$cookies.keys())
+    console.log(this.$cookies.get('wfw-cookies'))
 
     sleep(500).then(() => {
       this.$notify.warning({
