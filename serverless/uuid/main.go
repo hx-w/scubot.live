@@ -84,8 +84,9 @@ func CheckUidExist(uid string) bool {
 }
 
 func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResponse, error) {
-	if initClient() != nil {
-		return Resp(403, "{\"detail\": \"数据库连接错误\"}")
+	err := initClient()
+	if err != nil {
+		return Resp(403, "{\"detail\": \"数据库连接错误: " + err.Error() + "\"}")
 	}
 	UUkey, okU := request.QueryStringParameters["UUkey"]
 	eai_sess, okE := request.QueryStringParameters["eai-sess"]
