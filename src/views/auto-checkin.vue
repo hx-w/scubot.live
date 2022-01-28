@@ -406,6 +406,7 @@ export default {
           } else {
             this.$message.error("出现了一些错误，请检查表单是否填写正确");
           }
+          this.$cookies.remove('checkin-cookies')
           this.loading_delete = false;
         })
         .catch((res) => {
