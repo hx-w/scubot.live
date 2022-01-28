@@ -104,16 +104,17 @@ import { loadAmap, loadPlugins } from "@amap/amap-vue";
 
 export default {
   name: 'scumap',
+  props: {'center': Array, 'position': Array},
   data() {
     return {
       mode: "search",
-      center: [104.079966362848, 30.630839301216],
+      // center: [104.079966362848, 30.630839301216],
       zoom: 16,
       query: "",
       searching: false,
       tips: [],
       results: [],
-      position: [104.079966362848, 30.630839301216],
+      // position: [104.079966362848, 30.630839301216],
       pageIndex: 1,
       pageSize: 10,
       total: 0,

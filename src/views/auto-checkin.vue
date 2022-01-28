@@ -121,7 +121,7 @@ F12，切换至Network选项卡，刷新页面
               center
               top="15px"
             >
-              <scumap ref="scumap" />
+              <scumap ref="scumap" :center="icenter" :position="iposition" />
               <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogMapVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirmLoc">确 定</el-button>
@@ -260,6 +260,8 @@ export default {
       ],
       newClient: true,
       logs: [],
+      iposition: [104.079966362848, 30.630839301216],
+      icenter: [104.079966362848, 30.630839301216],
     };
   },
   created() {
@@ -281,8 +283,8 @@ export default {
       this.scu.qqid = this.preview.qqid
       this.scu.uid = this.preview.uid
       this.getAreaFromLoc(this.preview.location.lat, this.preview.location.lng, false)
-      this.$refs.scumap.position = [this.preview.location.lng, this.preview.location.lat]
-      this.$refs.scumap.center = [this.preview.location.lng, this.preview.location.lat]
+      this.iposition = [this.preview.location.lng, this.preview.location.lat]
+      this.icenter = [this.preview.location.lng, this.preview.location.lat]
       this.newClient = false
     }
 
