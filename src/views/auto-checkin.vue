@@ -10,19 +10,19 @@
             align="center"
             alt="runtime"
             hspace="5"
-            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.scubot.com%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D0"
+            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fcheckin.scubot.com%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D0"
           />
           <img
             align="center"
             alt="total"
             hspace="5"
-            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.scubot.com%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D1"
+            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fcheckin.scubot.com%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D1"
           />
           <img
             align="center"
             alt="valid workflow"
             hspace="5"
-            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fwww.scubot.com%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D2"
+            src="https://img.shields.io/endpoint?url=https%3A%2F%2Fcheckin.scubot.com%2F.netlify%2Ffunctions%2Fbadge%3Ftype_%3D2"
           />
         </div>
       </el-header>
@@ -319,7 +319,7 @@ export default {
           UUkey: uGot[1],
         };
         axios
-          .get("https://www.scubot.com/.netlify/functions/uuid", {
+          .get("https://checkin.scubot.com/.netlify/functions/uuid", {
             params: {
               UUkey: cookies["UUkey"],
               "eai-sess": cookies["eai-sess"],
@@ -363,7 +363,7 @@ export default {
         uid: this.preview.uid,
       };
       axios
-        .post("https://www.scubot.com/.netlify/functions/post", postData)
+        .post("https://checkin.scubot.com/.netlify/functions/post", postData)
         .then((res) => {
           if (res.status == 200) {
             this.$alert(res.data["message"], {
@@ -397,7 +397,7 @@ export default {
         uid: this.preview.uid,
       };
       axios
-        .post("https://www.scubot.com/.netlify/functions/delete", postData)
+        .post("https://checkin.scubot.com/.netlify/functions/delete", postData)
         .then((res) => {
           if (res.status == 200) {
             this.$message.success(res.data["message"]);
@@ -433,7 +433,7 @@ export default {
     },
     getLogs(notice=true) {
       axios
-        .get("https://www.scubot.com/.netlify/functions/log", {
+        .get("https://checkin.scubot.com/.netlify/functions/log", {
           params: {
             uid: this.preview.uid,
           },

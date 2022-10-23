@@ -34,7 +34,7 @@ export default {
   methods: {
     onSubmit(event) {
       axios
-        .get("https://www.scubot.com/.netlify/functions/token", {
+        .get("https://checkin.scubot.com/.netlify/functions/token", {
           params: {
             "simple_verify": this.token,
           },
