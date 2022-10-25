@@ -4,7 +4,7 @@
 
 SCUBot是针对**Sichuan University**各系统提供的一系列自动化网络服务。
 
-站点：**https://scubot.com** 或 **https://scubot.live**
+站点：**https://checkin.scubot.com**
 
 **有什么？**
 
@@ -45,6 +45,6 @@ SCUBot是针对**Sichuan University**各系统提供的一系列自动化网络�
 
 ## 服务架构
 
-![架构](https://ibed.csgowiki.top/image/消息架构.png)
+![架构](https://imgbed.scubot.com/image/消息架构.png)
 
-> v2021.12.7
+> @copyright 2021-2022
