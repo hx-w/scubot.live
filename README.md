@@ -3,6 +3,8 @@
 
 SCU健康每日报自动打卡系统
 
-站点：**https://scubot.com**
+站点：[**https://checkin.scubot.com**](https://checkin.scubot.com)
 
-临时文档：**https://scubot.com/pdf/guideline.pdf**
+验证码：成都今天下雨了吗？
+
+临时文档：[**https://checkin.scubot.com/pdf/guideline.pdf**](https://checkin.scubot.com/pdf/guideline.pdf)
