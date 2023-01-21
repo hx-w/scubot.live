@@ -1,5 +1,8 @@
-# scubot.com
+# scubot
 [![Netlify Status](https://api.netlify.com/api/v1/badges/1d5760ec-98f2-485e-9132-c39e43f7d3f5/deploy-status)](https://app.netlify.com/sites/scubot/deploys)
+
+
+**苟活421天，死在了除夕**
 
 SCU健康每日报自动打卡系统
 
